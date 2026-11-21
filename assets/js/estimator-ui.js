@@ -9,29 +9,31 @@
   if (pitch && !pitch.value) pitch.value = S.defaultPitchDeg;
   if (overhang && !overhang.value) overhang.value = S.defaultOverhangM;
 
-  function fmt(n, d) {
-    return Number(n).toLocaleString("en-NG", { maximumFractionDigits: d == null ? 1 : d });
-  }
-  function naira(n) { return "₦" + Number(n).toLocaleString("en-NG"); }
+  function fmt(n, d) { return Number(n).toLocaleString("en-NG", { maximumFractionDigits: d == null ? 1 : d }); }
+  function naira(n) { return "₦" + Number(Math.round(n)).toLocaleString("en-NG"); }
   function val(name) {
     var el = form.querySelector('[name="' + name + '"]:checked') || form.querySelector('[name="' + name + '"]');
     return el ? el.value : "";
   }
+  function row(a, b) { return "<tr><td>" + a + "</td><td>" + b + "</td></tr>"; }
 
   function render() {
     var input = {
       length: val("length"), width: val("width"), shape: val("shape"),
-      pitch: val("pitch"), overhang: val("overhang"), profile: val("profile"),
+      pitch: val("pitch"), overhang: val("overhang"), profile: val("profile"), thickness: val("thickness"),
     };
     var pitchRow = document.getElementById("pitch-row");
     if (pitchRow) pitchRow.hidden = input.shape === "flat";
+    var thRow = document.getElementById("thickness-row");
+    if (thRow) thRow.hidden = S.profiles[input.profile].unit !== "sheet";
+
     if (input.shape === "complex") {
-      out.innerHTML = '<div class="card"><h2>Complex roof</h2><p>L-shaped and T-shaped roofs, valleys and roofs on several levels need a proper take-off. Send us a photo of your building plan on WhatsApp and we will work out the quantities for you, free.</p>' +
+      out.innerHTML = '<div class="card result-card"><span class="eyebrow">Complex roof</span><h2>We will do the take-off for you</h2><p>L-shaped and T-shaped roofs, valleys and roofs on several levels need a proper take-off. Send us a photo of your building plan on WhatsApp and we will work out the quantities.</p>' +
         '<p style="margin-top:16px"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + window.HTWhatsApp("Hello HolyTouch Roofing, I have an L-shaped or complex roof. I will send my building plan here for a take-off.") + '">Send my plan on WhatsApp</a></p></div>';
       return;
     }
     if (!(Number(input.length) > 0) || !(Number(input.width) > 0)) {
-      out.innerHTML = '<div class="card"><h2>Your estimate</h2><p>Enter the building length and width to see the roof area, sheets and timber.</p></div>';
+      out.innerHTML = '<div class="card result-card empty"><span class="eyebrow">Your estimate</span><h2>Enter your measurements</h2><p>Type the building length and width to see the roof area, the bill of quantities and a materials price range.</p></div>';
       return;
     }
     var r;
@@ -39,58 +41,63 @@
       out.innerHTML = '<div class="card"><p class="error">' + e.message + "</p></div>"; return;
     }
     var P = S.profiles[r.inputs.profile];
+    var isSheet = P.unit === "sheet";
     var shapeName = { gable: "Gable", hip: "Hip", flat: "Flat / low-slope" }[r.inputs.shape];
-    var h = '<div class="card">';
-    h += '<span class="eyebrow">Preliminary estimate</span>';
-    h += '<div class="big">' + fmt(r.roofArea) + ' m²</div><p class="disclaimer" style="margin-top:6px">Sloped roof area including ' + fmt(r.inputs.overhang, 2) + ' m overhangs (' + shapeName + ', ' + fmt(r.inputs.pitchDeg, 0) + '°). Floor plan area: ' + fmt(r.planArea) + ' m².</p>';
+    var matName = P.label + (isSheet ? " " + r.inputs.thickness + " mm" : "");
 
-    h += '<h3>Roofing <span class="badge ok">reliable</span></h3><table>';
-    h += "<tr><td>Material</td><td>" + P.label + "</td></tr>";
-    if (r.sheets) {
-      if (r.sheets.exact) {
-        h += "<tr><td>Sheets</td><td>" + r.sheets.count + " × " + fmt(r.sheets.lengthM) + " m</td></tr>";
-        h += "<tr><td>Total running length</td><td>" + fmt(r.sheets.totalM) + " m</td></tr>";
-      } else {
-        h += "<tr><td>Total running length (incl. cutting)</td><td>" + fmt(r.sheets.totalM) + " m</td></tr>";
-        h += "<tr><td>Longest sheet</td><td>" + fmt(r.sheets.lengthM) + " m</td></tr>";
-      }
+    var h = '<div class="card result-card">';
+    h += '<span class="eyebrow">Preliminary estimate</span>';
+    h += '<div class="big">' + fmt(r.roofArea) + ' m²</div><p class="disclaimer" style="margin-top:6px">Roof area including ' + fmt(r.inputs.overhang, 2) + ' m overhangs · ' + shapeName + ' roof, ' + fmt(r.inputs.pitchDeg, 0) + '° · floor plan ' + fmt(r.planArea) + ' m²</p>';
+
+    if (r.price) {
+      h += '<div class="price-box"><span>Materials estimate</span><strong>' + naira(r.price.low) + " – " + naira(r.price.high) + '</strong><small>Based on HolyTouch prices, ' + r.price.asOf + '. Installation and transport are quoted after inspection.</small></div>';
     }
-    if (r.tiles) h += "<tr><td>Tiles (incl. waste)</td><td>" + fmt(r.tiles.count, 0) + "</td></tr>";
-    if (r.lines.ridge) h += "<tr><td>Ridge</td><td>" + fmt(r.lines.ridge) + " m</td></tr>";
-    if (r.lines.hips) h += "<tr><td>Hips (all four)</td><td>" + fmt(r.lines.hips) + " m</td></tr>";
-    if (r.lines.ridgeCaps) h += "<tr><td>Ridge caps</td><td>" + fmt(r.lines.ridgeCaps) + " m</td></tr>";
-    h += "<tr><td>Gutter / fascia</td><td>" + fmt(r.lines.gutter) + " m</td></tr>";
-    if (r.lines.verge) h += "<tr><td>Verge / barge flashing</td><td>" + fmt(r.lines.verge) + " m</td></tr>";
+
+    h += '<h3>Bill of quantities <span class="badge ok">from your measurements</span></h3><table>';
+    if (r.sheets) {
+      h += row(matName, r.sheets.exact ? r.sheets.count + " sheets × " + fmt(r.sheets.lengthM) + " m = " + fmt(r.sheets.totalM) + " m" : fmt(r.sheets.totalM) + " m (incl. cutting)");
+    }
+    if (r.tiles) h += row(matName, fmt(r.tiles.count, 0) + " tiles (incl. waste)");
+    if (r.lines.ridgeCaps) h += row("Ridge cap" + (r.lines.hips ? " (ridge + hips)" : ""), fmt(r.lines.ridgeCaps) + " m");
+    if (r.lines.verge) h += row("Barge board", fmt(r.lines.verge) + " m");
+    h += row("Fascia cladding", fmt(r.lines.eaves) + " m");
+    h += row("Eaves angle", fmt(r.lines.eaves) + " m");
+    h += row("Gutter (if required)", fmt(r.lines.gutter) + " m");
     h += "</table>";
     r.notes.forEach(function (n) { h += '<p class="disclaimer">' + n + "</p>"; });
 
-    h += '<h3>Fixings and timber <span class="badge ind">indicative</span></h3><table>';
-    h += "<tr><td>Roofing screws</td><td>about " + fmt(r.screws, 0) + "</td></tr>";
-    h += "<tr><td>Rafters (" + r.timber.rafters.size + ")</td><td>" + fmt(r.timber.rafters.pieces, 0) + " pieces</td></tr>";
-    h += "<tr><td>Purlins (" + r.timber.purlins.size + ")</td><td>" + fmt(r.timber.purlins.pieces, 0) + " pieces</td></tr>";
-    h += "<tr><td>Wall plate (" + r.timber.wallPlate.size + ")</td><td>" + fmt(r.timber.wallPlate.pieces, 0) + " pieces</td></tr>";
-    h += "</table><p class='disclaimer'>Timber counted in 12 ft (" + r.timber.pieceLengthM + " m) pieces with 10% for offcuts. Truss members (ties, struts, king posts) and fascia boards are added after our site check.</p>";
-
-    h += "<h3>Price</h3>";
-    if (r.price) {
-      h += '<p><strong>' + naira(r.price.low) + " to " + naira(r.price.high) + "</strong><br><span class='disclaimer'>Rough range for materials and labour, based on prices as of " + r.price.asOf + ". The final price follows a site inspection.</span></p>";
-    } else {
-      h += "<p>Price on request. Our price list is being updated; send this estimate on WhatsApp and we will reply with a price range.</p>";
+    if (isSheet) {
+      h += '<h3>Fixings and sealants <span class="badge ok">HolyTouch rates</span></h3><table>';
+      h += row("Drive screws", r.fixings.screwPackets + " pkts");
+      h += row("Seam bolts", r.fixings.seamBoltPackets + " pkts");
+      h += row("Rivet nails", r.fixings.rivetPackets + " pkts");
+      h += row("Silicone sealant", r.fixings.siliconeTubes + " tubes");
+      h += row("Flash band", r.fixings.flashBandRolls + " roll");
+      h += "</table>";
     }
+
+    h += '<h3>Timber <span class="badge ind">indicative</span></h3><table>';
+    h += row("Rafters (" + r.timber.rafters.size + ")", fmt(r.timber.rafters.pieces, 0) + " pcs");
+    h += row("Purlins (" + r.timber.purlins.size + ")", fmt(r.timber.purlins.pieces, 0) + " pcs");
+    h += row("Wall plate (" + r.timber.wallPlate.size + ")", fmt(r.timber.wallPlate.pieces, 0) + " pcs");
+    h += "</table><p class='disclaimer'>12 ft pieces with 10% for offcuts. Truss members and wall flashing depend on your building and are confirmed on site.</p>";
+
+    if (!r.price) h += "<h3>Price</h3><p>Send this estimate on WhatsApp and we will reply with a price.</p>";
 
     var msg = [
       "Hello HolyTouch Roofing, I used the roof calculator on your website.",
       "Building: " + fmt(r.inputs.L) + " m x " + fmt(r.inputs.W) + " m",
       "Roof: " + shapeName + ", " + fmt(r.inputs.pitchDeg, 0) + "°, overhang " + fmt(r.inputs.overhang, 2) + " m",
-      "Material: " + P.label,
-      "Estimated roof area: " + fmt(r.roofArea) + " m²",
-      r.sheets ? "Sheets: " + (r.sheets.exact ? r.sheets.count + " x " + fmt(r.sheets.lengthM) + " m" : fmt(r.sheets.totalM) + " running metres") : "Tiles: " + r.tiles.count,
+      "Material: " + matName,
+      "Roof area: " + fmt(r.roofArea) + " m²",
+      r.sheets ? "Sheets: " + fmt(r.sheets.totalM) + " m" : "Tiles: " + r.tiles.count,
+      r.price ? "Materials estimate: " + naira(r.price.low) + " – " + naira(r.price.high) : "",
       "Job type: " + val("job"),
       "Location: " + (val("location") || "(not given)"),
       "Please send me an exact quote.",
-    ].join("\n");
-    h += '<div class="btn-row" style="margin-top:18px"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + window.HTWhatsApp(msg) + '">Send this estimate on WhatsApp</a></div>';
-    h += '<p class="disclaimer" style="margin-top:14px">This is a preliminary estimate from the dimensions you entered. Walls are rarely perfectly square and plans can differ from what was built, so HolyTouch checks measurements, timber, structure and prices before giving a final quote.</p>';
+    ].filter(Boolean).join("\n");
+    h += '<div class="btn-row" style="margin-top:20px"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + window.HTWhatsApp(msg) + '">Send this estimate on WhatsApp</a></div>';
+    h += '<p class="disclaimer" style="margin-top:14px">A preliminary estimate from the dimensions you entered. HolyTouch confirms measurements, timber, structure and current prices before giving a final quotation.</p>';
     h += "</div>";
     out.innerHTML = h;
   }

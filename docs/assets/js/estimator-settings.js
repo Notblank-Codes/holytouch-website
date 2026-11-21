@@ -1,45 +1,48 @@
 /*
   HolyTouch Roofing: roof calculator settings
   ------------------------------------------------
-  Every number the calculator uses lives here, so the results follow
-  HolyTouch's own practice. Values marked DEFAULT are common Nigerian
-  figures used until they are confirmed with HolyTouch.
+  Every number the calculator uses lives here, so results follow HolyTouch's
+  own practice. Unit prices and packet rates come from HolyTouch quotations
+  (July–August 2026). Values marked DEFAULT are common figures still to be
+  confirmed.
 */
 window.HT_SETTINGS = {
-  // Roof slope in degrees offered by default (DEFAULT)
-  defaultPitchDeg: 18,
-  // Slope used for "flat / low-slope" roofs (DEFAULT)
-  lowSlopePitchDeg: 5,
-  // Eave overhang in metres (DEFAULT)
-  defaultOverhangM: 0.6,
+  defaultPitchDeg: 18,          // DEFAULT
+  lowSlopePitchDeg: 5,          // DEFAULT
+  defaultOverhangM: 0.6,        // DEFAULT
 
   profiles: {
     longspan: {
       label: "Long-span aluminium",
-      unit: "sheet",            // sold as sheets cut to length, priced per metre
+      unit: "sheet",
       coverWidthM: 0.686,       // effective cover width after side lap (DEFAULT)
-      roundLengthToM: 0.1,      // sheets are cut up to the next 0.1 m
+      roundLengthToM: 0.1,
+      thicknesses: ["0.45", "0.55"],
     },
     steptile: {
       label: "Step-tile aluminium",
       unit: "sheet",
       coverWidthM: 1.0,         // DEFAULT, confirm with supplier
       roundLengthToM: 0.1,
+      thicknesses: ["0.45", "0.55"],
     },
     stonecoated: {
       label: "Stone-coated tiles",
       unit: "tile",
-      tilesPerM2: 2.1,          // about 2.1 tiles per m² (DEFAULT)
+      tilesPerM2: 2.1,          // DEFAULT
     },
   },
 
-  // Extra material for cutting at hips and other angled edges (fraction)
-  hipCuttingAllowance: 0.08,
-  // Extra tiles for breakage and cutting (fraction)
+  hipCuttingAllowance: 0.08,    // extra sheet for cutting at hips
   tileWaste: 0.05,
 
-  accessories: {
-    screwsPerM2: 7,             // DEFAULT
+  // Fixings and sealants, from HolyTouch quotations (per metre of roofing sheet)
+  fixings: {
+    sheetMetresPerScrewPacket: 20,   // 276 m → 12 pkts, 495 m → 25 pkts
+    sheetMetresPerSeamBoltPacket: 165,
+    sheetMetresPerRivetPacket: 100,
+    sheetMetresPerSiliconeTube: 250,
+    flashBandRolls: 1,
   },
 
   timber: {
@@ -49,22 +52,27 @@ window.HT_SETTINGS = {
     rafterSize: "2x4",
     purlinSize: "2x3",
     wallPlateSize: "2x4",
-    waste: 0.1,                 // 10% for offcuts (DEFAULT)
+    waste: 0.1,
   },
 
   /*
-    Price ranges in naira per m² of roof, materials and labour.
-    Leave as null until HolyTouch's price list is ready; the calculator
-    then shows "price on request" instead of a range.
-    Example:
-    prices: {
-      asOf: "2026-12-01",
-      perM2: {
-        longspan:    { low: 0, high: 0 },
-        steptile:    { low: 0, high: 0 },
-        stonecoated: { low: 0, high: 0 },
-      },
-    },
+    Material prices in naira, from HolyTouch quotations.
+    Shown as a materials-only range; installation and transport are quoted
+    after inspection. Set prices to null to hide prices on the site.
   */
-  prices: null,
+  prices: {
+    asOf: "August 2026",
+    rangeLow: 0.95,             // range shown = materials total × low … × high
+    rangeHigh: 1.1,
+    // ridge cap rate assumed equal to flashing rate: confirm with HolyTouch
+    longspan: {
+      "0.45": { sheetPerM: 7300, ridgePerM: 1100, bargePerM: 1100, fasciaPerM: 7300, eavesAnglePerM: 1900 },
+      "0.55": { sheetPerM: 9500, ridgePerM: 2425, bargePerM: 2425, fasciaPerM: 9500, eavesAnglePerM: 1900 },
+    },
+    screwPacket: 3000,
+    seamBoltPacket: 2500,
+    rivetPacket: 2500,
+    siliconeTube: 3000,
+    flashBandRoll: 2000,
+  },
 };

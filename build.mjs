@@ -27,34 +27,45 @@ const ICONS = {
   shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>',
 };
 
-// ---------- Placeholder pictures ----------
-function houseSVG({ roof = "#9E3B2F", style = "gable", label = "Placeholder photo", sky = ["#BFD9EE", "#EAF3FA"], wall = "#EFE7D8", wide = false }) {
+// ---------- Placeholder pictures (roof-sheet close-ups) ----------
+function shade(hex, amt) {
+  const n = parseInt(hex.slice(1), 16);
+  const c = [n >> 16, (n >> 8) & 255, n & 255].map((v) => Math.max(0, Math.min(255, Math.round(v + amt * 255))));
+  return "#" + c.map((v) => v.toString(16).padStart(2, "0")).join("");
+}
+function roofSVG({ colour = "#9E3B2F", kind = "longspan", label = "Placeholder photo", id = "p" }) {
   const W = 800, H = 600;
-  const x0 = wide ? 90 : 170, x1 = wide ? 710 : 630, wallTop = 330, ground = 500;
-  const mid = (x0 + x1) / 2, peak = wide ? 230 : 190, eave = 40;
-  let roofShape, ribs = "";
-  if (style === "hip") {
-    roofShape = `<polygon points="${x0 - eave},${wallTop} ${mid - 120},${peak} ${mid + 120},${peak} ${x1 + eave},${wallTop}" fill="${roof}"/>`;
+  let pattern = "";
+  if (kind === "stonecoated") {
+    pattern = `<pattern id="${id}t" width="90" height="56" patternUnits="userSpaceOnUse">
+      <rect width="90" height="56" fill="${colour}"/>
+      <path d="M0 40 Q22.5 18 45 40 T90 40 V56 H0Z" fill="${shade(colour, -0.08)}"/>
+      <path d="M0 40 Q22.5 18 45 40 T90 40" fill="none" stroke="${shade(colour, 0.12)}" stroke-width="3"/>
+      <rect y="52" width="90" height="4" fill="${shade(colour, -0.2)}"/></pattern>`;
   } else {
-    roofShape = `<polygon points="${x0 - eave},${wallTop} ${mid},${peak} ${x1 + eave},${wallTop}" fill="${roof}"/>`;
+    const step = kind === "steptile" ? `<rect y="58" width="44" height="6" fill="${shade(colour, -0.22)}"/><rect y="64" width="44" height="3" fill="${shade(colour, 0.12)}"/>` : "";
+    pattern = `<pattern id="${id}t" width="44" height="${kind === "steptile" ? 70 : 200}" patternUnits="userSpaceOnUse">
+      <rect width="44" height="200" fill="${colour}"/>
+      <rect x="0" width="8" height="200" fill="${shade(colour, 0.16)}"/>
+      <rect x="8" width="5" height="200" fill="${shade(colour, -0.18)}"/>
+      <rect x="22" width="3" height="200" fill="${shade(colour, -0.06)}"/>${step}</pattern>`;
   }
-  for (let x = x0 - eave + 14; x < x1 + eave; x += 16) {
-    ribs += `<line x1="${x}" y1="${wallTop}" x2="${x}" y2="${peak}" stroke="rgba(0,0,0,.13)" stroke-width="3"/>`;
-  }
-  const clip = `<clipPath id="r"><polygon points="${style === "hip" ? `${x0 - eave},${wallTop} ${mid - 120},${peak} ${mid + 120},${peak} ${x1 + eave},${wallTop}` : `${x0 - eave},${wallTop} ${mid},${peak} ${x1 + eave},${wallTop}`}"/></clipPath>`;
-  const win = (x) => `<rect x="${x}" y="370" width="70" height="60" rx="3" fill="#7FA6C4" stroke="#fff" stroke-width="6"/>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">
-<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient>${clip}</defs>
-<rect width="${W}" height="${H}" fill="url(#s)"/>
-<circle cx="660" cy="110" r="46" fill="#FFE3A3"/>
-<rect y="${ground}" width="${W}" height="${H - ground}" fill="#9DB07A"/>
-<rect x="${x0}" y="${wallTop}" width="${x1 - x0}" height="${ground - wallTop}" fill="${wall}"/>
-${win(x0 + 40)}${win(x1 - 110)}
-<rect x="${mid - 38}" y="390" width="76" height="110" rx="3" fill="#6B4A33"/>
-${roofShape}<g clip-path="url(#r)">${ribs}</g>
-<rect x="${x0 - eave}" y="${wallTop - 4}" width="${x1 - x0 + 2 * eave}" height="10" fill="#C7CDD4"/>
-<rect x="24" y="24" rx="18" width="${label.length * 11 + 40}" height="36" fill="rgba(30,42,56,.78)"/>
-<text x="44" y="48" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#fff">${esc(label)}</text>
+<defs>${pattern}
+<linearGradient id="${id}sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9CC3E2"/><stop offset="1" stop-color="#E4EEF6"/></linearGradient>
+<linearGradient id="${id}light" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
+<filter id="${id}n"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .18 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+</defs>
+<rect width="${W}" height="${H}" fill="url(#${id}sky)"/>
+<g transform="translate(-160 150) skewX(-18) rotate(-9)">
+  <rect width="1300" height="700" fill="url(#${id}t)"/>
+  ${kind === "stonecoated" ? `<rect width="1300" height="700" fill="${colour}" filter="url(#${id}n)"/>` : ""}
+  <rect x="0" y="-14" width="1300" height="18" fill="${shade(colour, -0.12)}"/>
+  <rect x="0" y="-26" width="1300" height="14" fill="#C7CDD4"/>
+</g>
+<rect width="${W}" height="${H}" fill="url(#${id}light)"/>
+<rect x="24" y="${H - 60}" rx="18" width="${label.length * 10.5 + 40}" height="36" fill="rgba(30,42,56,.72)"/>
+<text x="44" y="${H - 36}" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#fff">${esc(label)}</text>
 </svg>`;
 }
 
@@ -72,7 +83,7 @@ const NAV = [
 
 function layout({ title, description, body, file, base, scripts = [] }) {
   const pageUrl = `${site.siteUrl}/${file === "index.html" ? "" : file}`;
-  const fullTitle = file === "index.html" ? `${site.name} | Aluminium Roofing in Ibadan, Nigeria` : `${title} | ${site.shortName}`;
+  const fullTitle = file === "index.html" ? `${site.name} | Aluminium Roofing in Lagos and Ibadan` : `${title} | ${site.shortName}`;
   const nav = NAV.map(([href, label]) => `<a href="${base}${href}"${href === file ? ' aria-current="page"' : ""}>${label}</a>`).join("");
   const ld = {
     "@context": "https://schema.org",
@@ -82,7 +93,7 @@ function layout({ title, description, body, file, base, scripts = [] }) {
     telephone: site.phoneIntl,
     logo: `${site.siteUrl}/assets/img/logo/mark-a.svg`,
     address: { "@type": "PostalAddress", addressLocality: site.city, addressRegion: site.state, addressCountry: "NG" },
-    areaServed: { "@type": "Country", name: "Nigeria" },
+    areaServed: ["Lagos", "Ibadan", "Nigeria"],
     openingHours: "Mo-Sa 08:00-18:00",
   };
   return `<!doctype html>
@@ -111,7 +122,7 @@ ${site.previewNotice ? '<div class="preview-bar">Preview version: photos and pro
   <a class="brand" href="${base}index.html" aria-label="${esc(site.name)} home"><img src="${base}assets/img/logo/${site.logo}.svg" alt="${esc(site.name)}" width="230" height="44"></a>
   <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
   <nav id="nav" class="nav" aria-label="Main">${nav}</nav>
-  <a class="btn btn-primary btn-sm header-cta" href="${base}contact.html">Get a free quote</a>
+  <a class="btn btn-primary btn-sm header-cta" href="${base}contact.html">Request a quotation</a>
 </div></header>
 <main id="main">
 ${body}
@@ -122,7 +133,7 @@ ${body}
       <p>${esc(site.tagline)}.</p></div>
     <div><h4>Contact</h4><ul>
       <li><a href="${telHref}">Call ${site.phoneDisplay}</a></li>
-      <li><a href="${waHref("Hello HolyTouch Roofing, I would like a quote.")}" target="_blank" rel="noopener">WhatsApp ${site.phoneDisplay}</a></li>
+      <li><a href="${waHref("Hello HolyTouch Roofing, I would like a quote.")}" target="_blank" rel="noopener">WhatsApp ${site.whatsappDisplay}</a></li>
       <li>${esc(site.addressPublic)}</li>
       <li>${esc(site.hours)}</li></ul></div>
     <div><h4>Explore</h4><ul>
@@ -130,7 +141,7 @@ ${body}
       <li><a href="${base}roof-calculator.html">Roof calculator</a></li><li><a href="${base}materials.html">Materials guide</a></li>
       <li><a href="${base}faq.html">FAQ</a></li></ul></div>
   </div>
-  <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(site.name)}. Serving ${esc(site.serviceArea)}.</div>
+  <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(site.name)}. ${esc(site.locations)} · Projects across ${esc(site.serviceArea)}.</div>
 </div></footer>
 <a class="wa-float" href="${waHref("Hello HolyTouch Roofing, I would like a quote.")}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${ICONS.whatsapp}</a>
 <nav class="mobile-bar" aria-label="Quick contact">
@@ -183,13 +194,12 @@ fs.cpSync(path.join(ROOT, "assets"), path.join(OUT, "assets"), { recursive: true
 fs.mkdirSync(path.join(OUT, "assets/img/placeholders"), { recursive: true });
 
 // placeholder pictures
-const styles = ["gable", "hip", "hip", "gable", "gable", "gable"];
 projects.forEach((p, i) => {
-  fs.writeFileSync(path.join(OUT, `assets/img/placeholders/${p.slug}.svg`),
-    houseSVG({ roof: p.roofColour, style: styles[i % styles.length], wide: p.sector === "Commercial" }));
+  const kind = /stone/i.test(p.material) ? "stonecoated" : /step/i.test(p.material) ? "steptile" : "longspan";
+  fs.writeFileSync(path.join(OUT, `assets/img/placeholders/${p.slug}.svg`), roofSVG({ colour: p.roofColour, kind, id: "p" + i }));
 });
-fs.writeFileSync(path.join(OUT, "assets/img/placeholders/hero.svg"), houseSVG({ roof: "#9E3B2F", style: "hip", label: "Placeholder photo: your best roof here" }));
-fs.writeFileSync(path.join(OUT, "assets/img/placeholders/about.svg"), houseSVG({ roof: "#2E5E8C", style: "gable", label: "Placeholder photo: team at work", wall: "#E8E2D6" }));
+fs.writeFileSync(path.join(OUT, "assets/img/placeholders/hero.svg"), roofSVG({ colour: "#8E3428", kind: "longspan", label: "Placeholder photo", id: "h" }));
+fs.writeFileSync(path.join(OUT, "assets/img/placeholders/about.svg"), roofSVG({ colour: "#2E5E8C", kind: "steptile", label: "Placeholder photo", id: "a" }));
 
 const pagesDir = path.join(ROOT, "src/pages");
 const urls = [];
@@ -207,6 +217,7 @@ for (const f of fs.readdirSync(pagesDir).filter((x) => x.endsWith(".html"))) {
     .replace(/\{\{wa:([^}]*)\}\}/g, (_, t) => waHref(t))
     .replace(/\{\{tel\}\}/g, telHref)
     .replace(/\{\{phone\}\}/g, site.phoneDisplay)
+    .replace(/\{\{waphone\}\}/g, site.whatsappDisplay)
     .replace(/\{\{base\}\}/g, base);
   fs.writeFileSync(path.join(OUT, f), layout({ ...meta, body, file: f, base }));
   if (f !== "404.html") urls.push(f === "index.html" ? "" : f);

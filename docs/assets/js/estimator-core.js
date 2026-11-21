@@ -75,7 +75,19 @@
       res.tiles = { count: Math.ceil(roofArea * P.tilesPerM2 * (1 + waste)) };
     }
 
-    res.screws = Math.ceil(roofArea * S.accessories.screwsPerM2);
+    // ---- Fixings and sealants (HolyTouch packet rates, per metre of sheet) ----
+    var F = S.fixings;
+    var sheetM = res.sheets ? res.sheets.totalM : roofArea / 0.686; // tiles: use an equivalent length
+    res.fixings = {
+      screwPackets: Math.ceil(sheetM / F.sheetMetresPerScrewPacket - 1e-9),
+      seamBoltPackets: Math.ceil(sheetM / F.sheetMetresPerSeamBoltPacket - 1e-9),
+      rivetPackets: Math.ceil(sheetM / F.sheetMetresPerRivetPacket - 1e-9),
+      siliconeTubes: Math.max(1, Math.ceil(sheetM / F.sheetMetresPerSiliconeTube - 1e-9)),
+      flashBandRolls: F.flashBandRolls,
+    };
+    // eaves length carries the fascia cladding and eaves angle
+    res.lines.eaves = res.lines.gutter;
+    res.inputs.thickness = input.thickness || "0.45";
 
     // ---- Timber (indicative) ----
     var T = S.timber;
@@ -91,16 +103,30 @@
       pieceLengthM: T.pieceLengthM,
     };
 
-    // ---- Price range (only if a price list is set) ----
-    if (S.prices && S.prices.perM2 && S.prices.perM2[profileKey]) {
-      var pr = S.prices.perM2[profileKey];
-      if (pr.low > 0 && pr.high > 0) {
-        res.price = {
-          low: Math.round((roofArea * pr.low) / 10000) * 10000,
-          high: Math.round((roofArea * pr.high) / 10000) * 10000,
-          asOf: S.prices.asOf,
-        };
-      }
+    // ---- Materials price range (only where HolyTouch prices are set) ----
+    var PR = S.prices;
+    var unit = PR && PR[profileKey] && PR[profileKey][res.inputs.thickness];
+    if (unit && res.sheets) {
+      var items = [
+        ["Roofing sheet", res.sheets.totalM, "m", unit.sheetPerM],
+        ["Ridge cap", res.lines.ridgeCaps, "m", unit.ridgePerM],
+        ["Barge board", res.lines.verge, "m", unit.bargePerM],
+        ["Fascia cladding", res.lines.eaves, "m", unit.fasciaPerM],
+        ["Eaves angle", res.lines.eaves, "m", unit.eavesAnglePerM],
+        ["Drive screws", res.fixings.screwPackets, "pkts", PR.screwPacket],
+        ["Seam bolts", res.fixings.seamBoltPackets, "pkts", PR.seamBoltPacket],
+        ["Rivet nails", res.fixings.rivetPackets, "pkts", PR.rivetPacket],
+        ["Silicone sealant", res.fixings.siliconeTubes, "tubes", PR.siliconeTube],
+        ["Flash band", res.fixings.flashBandRolls, "roll", PR.flashBandRoll],
+      ].filter(function (it) { return it[1] > 0; });
+      var total = items.reduce(function (s, it) { return s + it[1] * it[3]; }, 0);
+      res.price = {
+        items: items,
+        total: Math.round(total),
+        low: Math.round((total * PR.rangeLow) / 10000) * 10000,
+        high: Math.round((total * PR.rangeHigh) / 10000) * 10000,
+        asOf: PR.asOf,
+      };
     }
     return res;
   }

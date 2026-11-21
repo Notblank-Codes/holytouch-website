@@ -1,18 +1,20 @@
 {
   "name": "HolyTouch Roofing Ltd",
   "shortName": "HolyTouch Roofing",
-  "tagline": "Aluminium roofing specialists in Ibadan, serving every state in Nigeria",
+  "tagline": "Aluminium roofing specialists in Lagos and Ibadan, taking projects across Nigeria and beyond",
   "city": "Ibadan",
   "state": "Oyo State",
   "country": "Nigeria",
-  "serviceArea": "All 36 states and the FCT",
+  "serviceArea": "Nigeria and beyond",
   "phoneDisplay": "0706 328 1892",
   "phoneIntl": "+2347063281892",
-  "whatsappIntl": "2347063281892",
+  "whatsappIntl": "2348033761125",
   "email": "",
-  "addressPublic": "Ibadan, Oyo State",
+  "addressPublic": "Olomi-Olunde Road, Olunde, Ibadan \u00b7 Lagos",
   "hours": "Monday to Saturday, 8am to 6pm",
   "siteUrl": "https://notblank-codes.github.io/holytouch-website",
   "logo": "option-a",
-  "previewNotice": true
+  "previewNotice": true,
+  "locations": "Lagos and Ibadan",
+  "whatsappDisplay": "0803 376 1125"
 }

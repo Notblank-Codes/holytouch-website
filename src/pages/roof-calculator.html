@@ -1,9 +1,12 @@
 <!-- {"title":"Roof Calculator","description":"Free roof calculator for Nigeria: enter your building's length and width to estimate roof area in m², long-span sheets, step-tile or stone-coated tiles, ridge, gutters and timber.","scripts":["estimator-settings.js","estimator-core.js","estimator-ui.js"]} -->
-<section class="section">
-  <div class="container">
-    <span class="eyebrow">Free tool</span>
+<section class="page-hero"><div class="container" style="max-width:var(--max)">
+<span class="eyebrow">Roof calculator</span>
     <h1>Roof calculator</h1>
     <p class="lead">Get a preliminary estimate of your roof area and materials from your building's measurements. Send it to us on WhatsApp and we will reply with an exact quote.</p>
+</div></section>
+<section class="section">
+  <div class="container">
+    
 
     <div class="calc" style="margin-top:32px">
       <form id="calc-form" class="card form" novalidate>
@@ -35,6 +38,10 @@
             <option value="stonecoated">Stone-coated tiles</option>
           </select>
           <div class="hint"><a href="{{base}}materials.html" target="_blank">Compare materials</a></div>
+        </div>
+
+        <div class="field" id="thickness-row"><label for="thickness">Sheet thickness</label>
+          <select id="thickness" name="thickness"><option value="0.45">0.45 mm</option><option value="0.55" selected>0.55 mm (stronger, quieter)</option></select>
         </div>
 
         <div class="row-2">
