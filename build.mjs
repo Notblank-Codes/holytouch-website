@@ -153,7 +153,8 @@ ${body}
     <div><img src="${base}assets/img/logo/${site.logo}-dark.svg" alt="${esc(site.name)}" height="44" style="height:44px;width:auto;margin-bottom:14px">
       <p>${esc(site.tagline)}.</p></div>
     <div><h4>Contact</h4><ul>
-      <li><a href="${telHref}">Call or WhatsApp ${site.phoneDisplay}</a></li>
+      <li><a href="${telHref}">Call ${site.phoneDisplay}</a></li>
+      <li><a href="https://wa.me/${site.whatsappIntl}" target="_blank" rel="noopener">WhatsApp ${site.whatsappDisplay}</a></li>
       <li>${esc(site.addressPublic)}</li>
       <li>${esc(site.address2)}</li>
       <li>${esc(site.hours)}</li></ul></div>
@@ -285,7 +286,7 @@ for (const a of articles) {
   const body = a.raw
     .replace(/\{\{wa:([^}]*)\}\}/g, (_, t) => waHref(t))
     .replace(/\{\{icon:(\w+)\}\}/g, (_, n) => ICONS[n] || "")
-    .replace(/\{\{tel\}\}/g, telHref).replace(/\{\{phone\}\}/g, site.phoneDisplay)
+    .replace(/\{\{tel\}\}/g, telHref).replace(/\{\{phone\}\}/g, site.phoneDisplay).replace(/\{\{waphone\}\}/g, site.whatsappDisplay)
     .replace(/\{\{base\}\}/g, base);
   const related = articles.filter((x) => x.slug !== a.slug).slice(0, 3).map((x) => articleCard(x, base)).join("\n");
   const page = `<article>
@@ -302,7 +303,7 @@ for (const a of articles) {
 ${body}
   </div>
   <aside class="article-cta">
-    <div><h2>Need a roof done?</h2><p>Call or WhatsApp ${site.phoneDisplay}. Ibadan and Lagos, and we travel for jobs.</p></div>
+    <div><h2>Need a roof done?</h2><p>Call ${site.phoneDisplay} or WhatsApp ${site.whatsappDisplay}. Ibadan and Lagos, and we travel for jobs.</p></div>
     <div class="btn-row"><a class="btn btn-primary" href="${base}roof-calculator.html">Try the roof calculator</a>
     <a class="btn btn-wa" href="${waHref("Hello HolyTouch, I read your article and I would like a quotation.")}" target="_blank" rel="noopener">${ICONS.whatsapp} WhatsApp us</a></div>
   </aside>
