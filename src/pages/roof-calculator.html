@@ -1,0 +1,78 @@
+<!-- {"title":"Roof Calculator","description":"Free roof calculator for Nigeria: enter your building's length and width to estimate roof area in m², long-span sheets, step-tile or stone-coated tiles, ridge, gutters and timber.","scripts":["estimator-settings.js","estimator-core.js","estimator-ui.js"]} -->
+<section class="section">
+  <div class="container">
+    <span class="eyebrow">Free tool</span>
+    <h1>Roof calculator</h1>
+    <p class="lead">Get a preliminary estimate of your roof area and materials from your building's measurements. Send it to us on WhatsApp and we will reply with an exact quote.</p>
+
+    <div class="calc" style="margin-top:32px">
+      <form id="calc-form" class="card form" novalidate>
+        <div class="row-2">
+          <div class="field"><label for="length">Building length (m)</label><input id="length" name="length" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 15"></div>
+          <div class="field"><label for="width">Building width (m)</label><input id="width" name="width" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 10"></div>
+        </div>
+        <p class="hint disclaimer" style="margin:-6px 0 0">Measure the outside of the walls. On a building plan, use the overall dimensions.</p>
+
+        <div class="field">
+          <span style="display:block;font-weight:700;font-size:.95rem;margin-bottom:6px">Roof shape</span>
+          <div class="choice">
+            <input type="radio" id="s-gable" name="shape" value="gable" checked><label for="s-gable"><svg viewBox="0 0 64 40"><polygon points="4,36 32,6 60,36" fill="#C7CDD4" stroke="#1E2A38" stroke-width="2"/></svg>Gable</label>
+            <input type="radio" id="s-hip" name="shape" value="hip"><label for="s-hip"><svg viewBox="0 0 64 40"><polygon points="4,36 22,8 42,8 60,36" fill="#C7CDD4" stroke="#1E2A38" stroke-width="2"/><line x1="22" y1="8" x2="4" y2="36" stroke="#1E2A38" stroke-width="2"/></svg>Hip</label>
+            <input type="radio" id="s-flat" name="shape" value="flat"><label for="s-flat"><svg viewBox="0 0 64 40"><polygon points="4,36 4,26 60,18 60,36" fill="#C7CDD4" stroke="#1E2A38" stroke-width="2"/></svg>Flat / low-slope</label>
+          </div>
+          <p class="hint"><label style="display:inline;font-weight:600"><input type="radio" name="shape" value="complex" style="width:auto;display:inline"> My roof is L-shaped or complex</label></p>
+        </div>
+
+        <div class="row-2">
+          <div class="field" id="pitch-row"><label for="pitch">Roof slope (degrees)</label><input id="pitch" name="pitch" type="number" min="5" max="45" step="1"><div class="hint">Not sure? Leave 18°, common for Nigerian aluminium roofs.</div></div>
+          <div class="field"><label for="overhang">Eave overhang (m)</label><input id="overhang" name="overhang" type="number" min="0" max="1.5" step="0.05"><div class="hint">How far the roof sticks out past the walls.</div></div>
+        </div>
+
+        <div class="field"><label for="profile">Roofing material</label>
+          <select id="profile" name="profile">
+            <option value="longspan">Long-span aluminium</option>
+            <option value="steptile">Step-tile aluminium</option>
+            <option value="stonecoated">Stone-coated tiles</option>
+          </select>
+          <div class="hint"><a href="{{base}}materials.html" target="_blank">Compare materials</a></div>
+        </div>
+
+        <div class="row-2">
+          <div class="field"><label for="job">Job type</label>
+            <select id="job" name="job"><option>New roof</option><option>Re-roofing (replace old roof)</option></select></div>
+          <div class="field"><label for="location">Location (town / state)</label><input id="location" name="location" type="text" placeholder="e.g. Bodija, Ibadan"></div>
+        </div>
+
+        <div class="callout" style="margin-top:6px">
+          <strong>Have a building plan?</strong> Send a photo of it on WhatsApp and we will do the take-off for you.
+          <div style="margin-top:10px"><a class="btn btn-wa btn-sm" href="{{wa:Hello HolyTouch Roofing, I will send my building plan here for a roof estimate.}}" target="_blank" rel="noopener">{{icon:whatsapp}} Send my plan</a></div>
+        </div>
+      </form>
+
+      <div id="calc-results" class="results" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container grid grid-2" style="align-items:start">
+    <div>
+      <span class="eyebrow">How accurate is it?</span>
+      <h2>What the calculator can and can't tell you</h2>
+      <p>Roof area, sheet numbers and lengths, ridge, hip and gutter lengths are geometry, so they are <strong>reliable for simple gable, hip and flat roofs</strong> when the measurements are right.</p>
+      <p>Screws and timber are <strong>indicative</strong>. They depend on the truss design, spans, wall layout and timber sizes, which we confirm on site. L-shaped roofs, valleys and roofs on several levels need a proper take-off from your plan.</p>
+    </div>
+    <div class="card">
+      <h3>Before your final quote, we always check:</h3>
+      <ol style="margin:10px 0 0;padding-left:20px;color:var(--muted)">
+        <li>Site measurements: walls are rarely perfectly square, and plans can differ from what was built.</li>
+        <li>Structure: wall plates, beams and ring beam to carry the roof.</li>
+        <li>Timber: type, treatment against termites and rot, and moisture.</li>
+        <li>Wind, rain, drainage, gutter size and fixing pattern.</li>
+        <li>For re-roofing: condition of the old timber, removal and leak sources.</li>
+        <li>Access, scaffolding, transport distance and site security.</li>
+        <li>Current material prices and labour.</li>
+      </ol>
+    </div>
+  </div>
+</section>
