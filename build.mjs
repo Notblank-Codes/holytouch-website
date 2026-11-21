@@ -103,7 +103,7 @@ function layout({ title, description, body, file, base, scripts = [], faq = fals
     legalName: site.legalName,
     url: site.siteUrl + "/",
     telephone: site.phoneIntl,
-    logo: `${site.siteUrl}/assets/img/logo/mark-a.svg`,
+    logo: `${site.siteUrl}/assets/img/logo/holytouch-icon.svg`,
     image: `${site.siteUrl}/assets/img/og-image.png`,
     address: { "@type": "PostalAddress", streetAddress: site.street, addressLocality: "Ibadan", addressRegion: "Oyo", addressCountry: "NG" },
     areaServed: [{ "@type": "City", name: "Ibadan" }, { "@type": "City", name: "Lagos" }, { "@type": "Country", name: "Nigeria" }],
@@ -124,7 +124,7 @@ function layout({ title, description, body, file, base, scripts = [], faq = fals
 <meta property="og:type" content="${ogType}">
 <meta property="og:url" content="${pageUrl}">
 <meta name="theme-color" content="#1E2A38">
-<link rel="icon" href="${base}assets/img/logo/mark-a.svg" type="image/svg+xml">
+<link rel="icon" href="${base}assets/img/logo/holytouch-icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${base}assets/css/style.css">
@@ -150,7 +150,7 @@ ${body}
 </main>
 <footer class="site-footer"><div class="container">
   <div class="footer-grid">
-    <div><img src="${base}assets/img/logo/${site.logo}-dark.svg" alt="${esc(site.name)}" height="44" style="height:44px;width:auto;margin-bottom:14px">
+    <div><img src="${base}assets/img/logo/holytouch-logo-white.svg" alt="${esc(site.name)}" height="44" style="height:44px;width:auto;margin-bottom:14px">
       <p>${esc(site.tagline)}.</p></div>
     <div><h4>Contact</h4><ul>
       <li><a href="${telHref}">Call ${site.phoneDisplay}</a></li>

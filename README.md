@@ -14,7 +14,7 @@ Website for HolyTouch Roofing (HolyTouch Aluminium Systems Enterprises), Ibadan 
 | Page text | `src/pages/*.html` |
 | Roof calculator figures and price list | `assets/js/estimator-settings.js` |
 | Colours and layout | `assets/css/style.css` |
-| Logos | `assets/img/logo/` (made by `brand/make_logos.py`) |
+| Logo | `assets/img/logo/` |
 
 After changing anything, run `node build.mjs` and commit both the source and `docs/`.
 
