@@ -173,10 +173,10 @@ ${body}
   </div>
   <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(site.name)} · run by ${esc(site.legalName)}</div>
 </div></footer>
-<a class="wa-float" href="${waHref("Hello HolyTouch, I would like a quotation for roofing.")}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${ICONS.whatsapp}</a>
+<a class="wa-float" href="${waHref("Hello HolyTouch, I got your contact from your website. I would like a quotation for roofing.")}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${ICONS.whatsapp}</a>
 <nav class="mobile-bar" aria-label="Quick contact">
   <a class="call" href="${telHref}">${ICONS.phone} Call</a>
-  <a class="wa" href="${waHref("Hello HolyTouch, I would like a quotation for roofing.")}" target="_blank" rel="noopener">${ICONS.whatsapp} WhatsApp</a>
+  <a class="wa" href="${waHref("Hello HolyTouch, I got your contact from your website. I would like a quotation for roofing.")}" target="_blank" rel="noopener">${ICONS.whatsapp} WhatsApp</a>
 </nav>
 <script src="${base}assets/js/main.js"></script>
 ${scripts.map((s) => `<script src="${base}assets/js/${s}"></script>`).join("\n")}
@@ -215,7 +215,7 @@ function projectPage(p) {
   </div>
   ${p.photos.length > 1 ? `<h2 style="margin-top:40px">Photos</h2><div class="gallery">${gallery}</div>` : ""}
   <div class="btn-row" style="margin-top:32px">
-    <a class="btn btn-primary" href="${waHref(`Hello HolyTouch, I saw the "${p.title}" job on your website and I would like something similar.`)}" target="_blank" rel="noopener">${ICONS.whatsapp} I want a roof like this</a>
+    <a class="btn btn-primary" href="${waHref(`Hello HolyTouch, I got your contact from your website. I saw the "${p.title}" job and I would like something similar.`)}" target="_blank" rel="noopener">${ICONS.whatsapp} I want a roof like this</a>
     <a class="btn btn-ghost" href="${base}roof-calculator.html">Estimate my roof</a>
   </div>
 </div></section>`;
@@ -305,7 +305,7 @@ ${body}
   <aside class="article-cta">
     <div><h2>Need a roof done?</h2><p>Call ${site.phoneDisplay} or WhatsApp ${site.whatsappDisplay}. Ibadan and Lagos, and we travel for jobs.</p></div>
     <div class="btn-row"><a class="btn btn-primary" href="${base}roof-calculator.html">Try the roof calculator</a>
-    <a class="btn btn-wa" href="${waHref("Hello HolyTouch, I read your article and I would like a quotation.")}" target="_blank" rel="noopener">${ICONS.whatsapp} WhatsApp us</a></div>
+    <a class="btn btn-wa" href="${waHref("Hello HolyTouch, I got your contact from your website. I read one of your articles and I would like a quotation.")}" target="_blank" rel="noopener">${ICONS.whatsapp} WhatsApp us</a></div>
   </aside>
 </div>
 </article>

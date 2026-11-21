@@ -33,7 +33,7 @@
       e.preventDefault();
       if (!form.reportValidity()) return;
       var title = form.getAttribute("data-wa-form");
-      var lines = ["Hello HolyTouch Roofing, " + title + "."];
+      var lines = ["Hello HolyTouch, I got your contact from your website. " + title + "."];
       form.querySelectorAll("input, select, textarea").forEach(function (el) {
         if (!el.name || !el.value) return;
         if ((el.type === "radio" || el.type === "checkbox") && !el.checked) return;

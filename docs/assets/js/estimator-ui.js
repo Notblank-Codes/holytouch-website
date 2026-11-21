@@ -39,7 +39,7 @@
 
     if (input.shape === "complex") {
       out.innerHTML = '<div class="card result-card"><span class="eyebrow">Complex roof</span><h2>Send us your plan</h2><p>For L-shaped roofs, valleys and roofs on more than one level, we work the materials out from your building plan. Send a picture of it on WhatsApp.</p>' +
-        '<p style="margin-top:16px"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + window.HTWhatsApp("Hello HolyTouch, my roof is L-shaped or complex. I am sending my building plan.") + '">Send my plan on WhatsApp</a></p></div>';
+        '<p style="margin-top:16px"><a class="btn btn-wa" target="_blank" rel="noopener" href="' + window.HTWhatsApp("Hello HolyTouch, I got your contact from your website. My roof is L-shaped or complex. I am sending my building plan.") + '">Send my plan on WhatsApp</a></p></div>';
       return;
     }
     if (!(Number(input.length) > 0) || !(Number(input.width) > 0)) {
@@ -111,7 +111,7 @@
     if (!rp && !wp) h += "<p>Send this to us on WhatsApp and we will reply with a price.</p>";
 
     var msg = [
-      "Hello HolyTouch, I used the roof calculator on your website.",
+      "Hello HolyTouch, I got your contact from your website. I used your roof calculator.",
       "Building: " + fmt(r.inputs.L) + " m x " + fmt(r.inputs.W) + " m",
       "Roof: " + shapeName + ", " + fmt(r.inputs.pitchDeg, 0) + "°, overhang " + fmt(r.inputs.overhang, 2) + " m",
       "I need: " + scopeName,
