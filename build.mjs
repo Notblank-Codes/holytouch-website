@@ -208,7 +208,7 @@ function projectPage(p) {
     <div><h2>About this job</h2><p>${esc(p.story)}</p></div>
     <dl class="spec" style="margin:0">
       <div><dt>Work</dt><dd>${esc(p.tags.join(", "))}</dd></div>
-      <div><dt>Year</dt><dd>${esc(p.year)}</dd></div>
+      ${p.year ? `<div><dt>Year</dt><dd>${esc(p.year)}</dd></div>` : ""}
       <div><dt>Photos</dt><dd>${p.photos.length}</dd></div>
     </dl>
   </div>

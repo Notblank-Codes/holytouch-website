@@ -79,6 +79,37 @@
     ]
   },
   {
+    "slug": "black-stone-coated-dormers",
+    "title": "Black stone coated roof with roof vents",
+    "tags": [
+      "Stone coated"
+    ],
+    "summary": "Black stone coated tiles on a large bungalow, with small vented gables on the hips and white fascia.",
+    "story": "A large bungalow with many roof sections, covered in black stone coated tiles. Small vented gables sit on the hips to let hot air out of the roof, and white fascia runs round the edge.",
+    "photos": [
+      {
+        "alt": "Large bungalow with a black stone coated roof, small vented gables and white fascia"
+      }
+    ]
+  },
+  {
+    "slug": "black-stone-coated-hip-roof",
+    "title": "Black stone coated hip roof",
+    "tags": [
+      "Stone coated"
+    ],
+    "summary": "Black stone coated tiles on a hip roof, with our roofer finishing the top.",
+    "story": "A bungalow roofed with black stone coated tiles in a hip shape, with a lower roof section joined at the side. The photos show the finished roof and our roofer completing the last tiles.",
+    "photos": [
+      {
+        "alt": "Black stone coated hip roof on a bungalow"
+      },
+      {
+        "alt": "Roofer finishing a black stone coated hip roof"
+      }
+    ]
+  },
+  {
     "slug": "longspan-bungalow-beige",
     "title": "Longspan roof on a long bungalow",
     "year": "2022",
@@ -124,6 +155,21 @@
     "photos": [
       {
         "alt": "Bungalow with a brown stone coated tile roof and porch roof"
+      }
+    ]
+  },
+  {
+    "slug": "shingle-stone-coated-gutters",
+    "title": "Shingle-style stone coated roof with gutters",
+    "tags": [
+      "Stone coated",
+      "Gutters"
+    ],
+    "summary": "Grey shingle-pattern stone coated tiles, finished with white gutters along the roof edge.",
+    "story": "A bungalow roofed with shingle-pattern stone coated tiles in black and grey, with a separate roof over the porch and white rain gutters fitted along the edges.",
+    "photos": [
+      {
+        "alt": "Shingle-style stone coated roof with white gutters on a bungalow"
       }
     ]
   },
