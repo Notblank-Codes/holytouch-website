@@ -47,14 +47,15 @@ window.HT_SETTINGS = {
     flashBandRolls: 1,
   },
 
+  // Roof wood work, Nigerian truss method: trusses at 1.2 m centres, each with
+  // a tie beam, two rafters, a king post and two struts; purlins across the
+  // rafters; wall plate on the walls; fascia board round the edge.
   timber: {
-    rafterSpacingM: 0.6,        // DEFAULT
+    trussSpacingM: 1.2,         // DEFAULT
     purlinSpacingM: 0.9,        // DEFAULT
-    pieceLengthM: 3.66,         // 12 ft pieces
-    rafterSize: "2x4",
-    purlinSize: "2x3",
-    wallPlateSize: "2x4",
-    waste: 0.1,
+    pieceLengthM: 3.6,          // 12 ft lengths as sold
+    wallPlateWallFactor: 2.0,   // all walls ≈ 2 × outside perimeter (internal walls carry the wall plate too) DEFAULT
+    sizes: { tieBeam: "2x6", rafter: "3x4", kingPost: "2x6", strut: "3x4", purlin: "2x2", wallPlate: "3x4", fascia: "1x12", hipRafter: "3x4" },
   },
 
   /*
@@ -76,7 +77,8 @@ window.HT_SETTINGS = {
     rivetPacket: 2500,
     siliconeTube: 3000,
     flashBandRoll: 2000,
-    // Wood, per 12 ft piece. 2x4 from HolyTouch quotation; 2x3 is a DEFAULT to confirm.
-    wood: { "2x4": 2500, "2x3": 1900 },
+    // Wood, per 12 ft piece. 2x4 from HolyTouch quotation (₦2,500); the others are
+    // estimated from it using usual market ratios between sizes. CONFIRM with HolyTouch.
+    wood: { "2x2": 1100, "2x3": 1600, "2x4": 2500, "2x6": 3400, "3x4": 3400, "1x12": 6500 },
   },
 };

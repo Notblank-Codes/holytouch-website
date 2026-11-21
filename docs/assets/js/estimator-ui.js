@@ -73,13 +73,6 @@
       h += "</table><small>Using our prices from " + (rp || wp).asOf + ". Workmanship and transport are added in the quotation.</small></div>";
     }
 
-    // ---- Sizes (clearly labelled so no one mistakes them for a price unit) ----
-    h += '<div class="est-block"><h3>Sizes</h3><table>';
-    h += row("Floor area of the building", fmt(r.planArea) + " m²");
-    h += row("Roof surface to cover<br><small>sloped, with the overhang. Larger than the floor area</small>", fmt(r.roofArea) + " m²");
-    if (wantRoof && r.sheets) h += row("Roofing sheet to buy<br><small>sheets are sold by the running metre</small>", fmt(r.sheets.totalM) + " m");
-    h += "</table></div>";
-
     // ---- 1. Roofing ----
     if (wantRoof) {
       h += '<div class="est-block"><h3><span class="num">1</span> Roofing materials</h3><table>';
@@ -106,12 +99,10 @@
     // ---- 2. Wood work ----
     if (wantWood) {
       h += '<div class="est-block"><h3><span class="num">' + (wantRoof ? 2 : 1) + '</span> Wood work (carpentry)</h3><table>';
-      h += row("Rafters (" + r.timber.rafters.size + ")", fmt(r.timber.rafters.pieces, 0) + " pieces");
-      h += row("Purlins (" + r.timber.purlins.size + ")", fmt(r.timber.purlins.pieces, 0) + " pieces");
-      h += row("Wall plate (" + r.timber.wallPlate.size + ")", fmt(r.timber.wallPlate.pieces, 0) + " pieces");
+      r.timber.items.forEach(function (w) { h += row(w[0] + " (" + w[1] + ")", fmt(w[2], 0) + " pieces"); });
       h += "</table>";
       if (wp) h += '<p class="subtotal">Wood: <strong>' + naira(wp.low) + " – " + naira(wp.high) + "</strong></p>";
-      h += "<p class='disclaimer'>Counted in 12 ft lengths. The wood count is a guide: the full truss layout (ties, struts, king posts) is confirmed on site.</p></div>";
+      h += "<p class='disclaimer'>Based on " + r.timber.trusses + " trusses, counted in 12 ft lengths. Nails and ceiling noggins are not included. We confirm the wood on site.</p></div>";
     }
 
     if (!rp && !wp) h += "<p>Send this to us on WhatsApp and we will reply with a price.</p>";
@@ -125,7 +116,7 @@
       "Roof size: " + fmt(r.roofArea) + " m²",
       wantRoof ? (r.sheets ? "Sheets: " + fmt(r.sheets.totalM) + " m" : "Tiles: " + r.tiles.count) : "",
       rp ? "Roofing materials estimate: " + naira(rp.low) + " – " + naira(rp.high) : "",
-      wantWood ? "Wood: " + r.timber.rafters.pieces + " rafters, " + r.timber.purlins.pieces + " purlins, " + r.timber.wallPlate.pieces + " wall plate" : "",
+      wantWood ? "Wood: " + r.timber.items.map(function (w) { return w[2] + " " + w[1] + " (" + w[0].toLowerCase() + ")"; }).join(", ") : "",
       wp ? "Wood estimate: " + naira(wp.low) + " – " + naira(wp.high) : "",
       "Job type: " + val("job"),
       "Location: " + (val("location") || "(not given)"),

@@ -102,19 +102,35 @@
     res.lines.eaves = res.lines.gutter;
     res.inputs.thickness = input.thickness || "0.45";
 
-    // ---- Timber (indicative) ----
-    var T = S.timber;
-    var rafterM = roofArea / T.rafterSpacingM + hips;   // common rafters plus hip rafters
-    var purlinM = roofArea / T.purlinSpacingM;
-    var wallPlateM = 2 * (L + W);
-    var ridgeBoardM = ridge;
-    function pieces(m) { return Math.ceil((m * k * (1 + T.waste)) / T.pieceLengthM - 1e-9); }
-    res.timber = {
-      rafters: { size: T.rafterSize, metres: r1(rafterM), pieces: pieces(rafterM + ridgeBoardM) },
-      purlins: { size: T.purlinSize, metres: r1(purlinM), pieces: pieces(purlinM) },
-      wallPlate: { size: T.wallPlateSize, metres: r1(wallPlateM), pieces: pieces(wallPlateM) },
-      pieceLengthM: T.pieceLengthM,
-    };
+    // ---- Wood work (Nigerian truss method) ----
+    var T = S.timber, Z = T.sizes, PL = T.pieceLengthM;
+    // pieces needed for `count` members each `len` long, cut from PL lengths
+    function cut(count, len) {
+      if (!(count > 0) || !(len > 0)) return 0;
+      if (len > PL) return Math.ceil(count * len / PL - 1e-9);          // long members are jointed
+      return Math.ceil(count / Math.floor(PL / len + 1e-9) - 1e-9);     // short members share a length
+    }
+    function cont(totalM) { return Math.ceil(totalM / PL - 1e-9); }    // continuous runs
+    var riseWall = shape === "flat" ? W * tan : (W / 2) * tan;          // wall plate to ridge
+    var wood = [];
+    var nTruss = Math.ceil(Lp / T.trussSpacingM - 1e-9) + 1;
+    if (shape === "flat") {
+      wood.push(["Rafters", Z.rafter, cut(nTruss, slopeLen)]);
+    } else {
+      var strutLen = Math.sqrt(Math.pow(W / 4, 2) + Math.pow(riseWall / 2, 2));
+      wood.push(["Tie beams", Z.tieBeam, cut(nTruss, W)]);
+      wood.push(["Rafters", Z.rafter, cut(nTruss * 2, slopeLen)]);
+      wood.push(["King posts", Z.kingPost, cut(nTruss, riseWall)]);
+      wood.push(["Struts", Z.strut, cut(nTruss * 2, strutLen)]);
+      if (shape === "hip") wood.push(["Hip rafters", Z.hipRafter, cut(4, run * Math.sqrt(2 + tan * tan))]);
+    }
+    wood.push(["Purlins", Z.purlin, cont(roofArea / T.purlinSpacingM)]);
+    wood.push(["Wall plate", Z.wallPlate, cont(2 * (L + W) * T.wallPlateWallFactor)]);
+    wood.push(["Fascia board", Z.fascia, cont(gutter + verge)]);
+    // internal quantity factor
+    var kq = 1 + (S.q || 0);
+    wood = wood.map(function (w) { return [w[0], w[1], Math.ceil(w[2] * kq - 1e-9)]; });
+    res.timber = { items: wood, trusses: nTruss, pieceLengthM: PL };
 
     // ---- Materials price range (only where HolyTouch prices are set) ----
     var PR = S.prices;
@@ -143,14 +159,9 @@
     }
     // ---- Wood price range (separate from roofing) ----
     if (PR && PR.wood) {
-      var t = res.timber;
-      var witems = [
-        ["Rafters " + t.rafters.size, t.rafters.pieces, PR.wood[t.rafters.size]],
-        ["Purlins " + t.purlins.size, t.purlins.pieces, PR.wood[t.purlins.size]],
-        ["Wall plate " + t.wallPlate.size, t.wallPlate.pieces, PR.wood[t.wallPlate.size]],
-      ];
-      if (witems.every(function (w) { return w[2] > 0; })) {
-        var wt = witems.reduce(function (s2, w) { return s2 + w[1] * w[2]; }, 0);
+      var wt = 0, ok = true;
+      res.timber.items.forEach(function (w) { var pr = PR.wood[w[1]]; if (!(pr > 0)) ok = false; else wt += w[2] * pr; });
+      if (ok) {
         res.woodPrice = {
           total: Math.round(wt),
           low: Math.round((wt * PR.rangeLow) / 10000) * 10000,
