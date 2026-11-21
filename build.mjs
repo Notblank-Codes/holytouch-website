@@ -86,16 +86,16 @@ const NAV = [
   ["services.html", "Services"],
   ["projects.html", "Projects"],
   ["roof-calculator.html", "Roof Calculator"],
-  ["materials.html", "Materials"],
+  ["blog.html", "Roofing Tips"],
   ["about.html", "About"],
   ["faq.html", "FAQ"],
   ["contact.html", "Contact"],
 ];
 
-function layout({ title, description, body, file, base, scripts = [], faq = false }) {
+function layout({ title, description, body, file, base, scripts = [], faq = false, extraLd = [], ogImage = "", ogType = "website", navFile = "" }) {
   const pageUrl = `${site.siteUrl}/${file === "index.html" ? "" : file}`;
   const fullTitle = file === "index.html" ? `${site.name} | Aluminium Roofing in Ibadan and Lagos` : `${title} | ${site.shortName}`;
-  const nav = NAV.map(([href, label]) => `<a href="${base}${href}"${href === file ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+  const nav = NAV.map(([href, label]) => `<a href="${base}${href}"${href === (navFile || file) ? ' aria-current="page"' : ""}>${label}</a>`).join("");
   const ld = {
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
@@ -120,7 +120,7 @@ function layout({ title, description, body, file, base, scripts = [], faq = fals
 <link rel="canonical" href="${pageUrl}">
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(description)}">
-<meta property="og:type" content="website">
+<meta property="og:type" content="${ogType}">
 <meta property="og:url" content="${pageUrl}">
 <meta name="theme-color" content="#1E2A38">
 <link rel="icon" href="${base}assets/img/logo/mark-a.svg" type="image/svg+xml">
@@ -129,7 +129,8 @@ function layout({ title, description, body, file, base, scripts = [], faq = fals
 <link rel="stylesheet" href="${base}assets/css/style.css">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 ${faq ? `<script type="application/ld+json">${JSON.stringify(faqLd(body))}</script>` : ""}
-<meta property="og:image" content="${site.siteUrl}/assets/img/og-image.png">
+${extraLd.map((o) => `<script type="application/ld+json">${JSON.stringify(o)}</script>`).join("\n")}
+<meta property="og:image" content="${ogImage || site.siteUrl + "/assets/img/og-image.png"}">
 <meta property="og:site_name" content="${esc(site.name)}">
 <meta property="og:locale" content="en_NG">
 <meta name="twitter:card" content="summary_large_image">
@@ -165,7 +166,8 @@ ${body}
     <div><h4>Explore</h4><ul>
       <li><a href="${base}services.html">Services</a></li><li><a href="${base}projects.html">Projects</a></li>
       <li><a href="${base}roof-calculator.html">Roof calculator</a></li><li><a href="${base}materials.html">Materials guide</a></li>
-      <li><a href="${base}faq.html">FAQ</a></li></ul></div>
+      <li><a href="${base}faq.html">FAQ</a></li>
+      <li><a href="${base}blog.html">Roofing tips</a></li></ul></div>
   </div>
   <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(site.name)}</div>
 </div></footer>
@@ -252,6 +254,86 @@ for (const p of projects) {
   fs.writeFileSync(path.join(OUT, "projects", `${p.slug}.html`), projectPage(p));
   urls.push(`projects/${p.slug}.html`);
 }
+// ---------- Blog articles ----------
+const artDir = path.join(ROOT, "src/articles");
+const articles = fs.existsSync(artDir) ? fs.readdirSync(artDir).filter((x) => x.endsWith(".html")).map((f) => {
+  let raw = fs.readFileSync(path.join(artDir, f), "utf8");
+  const m = raw.match(/^<!--\s*(\{[\s\S]*?\})\s*-->/);
+  const meta = JSON.parse(m[1]);
+  raw = raw.replace(/^<!--[\s\S]*?-->\s*/, "");
+  return { ...meta, slug: f.replace(/\.html$/, ""), raw };
+}).sort((a, b) => (a.order || 99) - (b.order || 99)) : [];
+fs.mkdirSync(path.join(OUT, "blog"), { recursive: true });
+function imgUrl(img, w) {
+  if (img.pexels) return `https://images.pexels.com/photos/${img.pexels}/pexels-photo-${img.pexels}.jpeg?auto=compress&cs=tinysrgb&w=${w}`;
+  return img.src;
+}
+function articleCard(a, base) {
+  const local = !a.image.pexels;
+  return `<a class="project" href="${base}blog/${a.slug}.html">
+  <div class="img"><img src="${local ? base + a.image.src : imgUrl(a.image, 640)}" alt="${esc(a.image.alt)}" loading="lazy" width="640" height="427" onerror="this.onerror=null;this.src='${base}assets/img/placeholders/hero.svg'"></div>
+  <div class="body"><h3>${esc(a.h1)}</h3><p style="color:var(--muted);margin:6px 0 0;font-size:.95rem">${esc(a.description)}</p></div></a>`;
+}
+for (const a of articles) {
+  const base = "../";
+  const words = a.raw.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
+  const mins = Math.max(3, Math.round(words / 200));
+  const url = `${site.siteUrl}/blog/${a.slug}.html`;
+  const heroSrc = a.image.pexels ? imgUrl(a.image, 1200) : base + a.image.src;
+  const heroAbs = a.image.pexels ? imgUrl(a.image, 1200) : `${site.siteUrl}/${a.image.src}`;
+  const body = a.raw
+    .replace(/\{\{wa:([^}]*)\}\}/g, (_, t) => waHref(t))
+    .replace(/\{\{icon:(\w+)\}\}/g, (_, n) => ICONS[n] || "")
+    .replace(/\{\{tel\}\}/g, telHref).replace(/\{\{phone\}\}/g, site.phoneDisplay)
+    .replace(/\{\{base\}\}/g, base);
+  const related = articles.filter((x) => x.slug !== a.slug).slice(0, 3).map((x) => articleCard(x, base)).join("\n");
+  const page = `<article>
+<section class="page-hero article-hero"><div class="container narrow">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="${base}index.html">Home</a> › <a href="${base}blog.html">Roofing tips</a></nav>
+  <h1>${esc(a.h1)}</h1>
+  <p class="lead">${esc(a.description)}</p>
+  <p class="byline">By HolyTouch Roofing · ${(() => { const [y, mo, d] = (a.updated || a.date).split("-").map(Number); return `${d} ${["January","February","March","April","May","June","July","August","September","October","November","December"][mo - 1]} ${y}`; })()} · ${mins} min read</p>
+</div></section>
+<div class="container narrow">
+  <figure class="article-img"><img src="${heroSrc}" alt="${esc(a.image.alt)}" width="1200" height="800" onerror="this.onerror=null;this.src='${base}assets/img/placeholders/hero.svg'">
+  ${a.image.credit ? `<figcaption>Photo: <a href="${a.image.creditUrl}" target="_blank" rel="noopener">${esc(a.image.credit)}</a> on Pexels</figcaption>` : ""}</figure>
+  <div class="prose">
+${body}
+  </div>
+  <aside class="article-cta">
+    <div><h2>Need a roof done?</h2><p>Call or WhatsApp ${site.phoneDisplay}. Ibadan and Lagos, and we travel for jobs.</p></div>
+    <div class="btn-row"><a class="btn btn-primary" href="${base}roof-calculator.html">Try the roof calculator</a>
+    <a class="btn btn-wa" href="${waHref("Hello HolyTouch, I read your article and I would like a quotation.")}" target="_blank" rel="noopener">${ICONS.whatsapp} WhatsApp us</a></div>
+  </aside>
+</div>
+</article>
+<section class="section alt"><div class="container"><h2>More roofing tips</h2><div class="grid grid-3" style="margin-top:20px">${related}</div></div></section>`;
+  const ld = [
+    { "@context": "https://schema.org", "@type": "BlogPosting", headline: a.h1, description: a.description, image: [heroAbs],
+      datePublished: a.date, dateModified: a.updated || a.date, mainEntityOfPage: url, keywords: a.keywords.join(", "),
+      author: { "@type": "Organization", name: site.name, url: site.siteUrl + "/" },
+      publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: `${site.siteUrl}/assets/img/og-image.png` } } },
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.siteUrl + "/" },
+      { "@type": "ListItem", position: 2, name: "Roofing tips", item: `${site.siteUrl}/blog.html` },
+      { "@type": "ListItem", position: 3, name: a.h1, item: url } ] },
+  ];
+  fs.writeFileSync(path.join(OUT, "blog", `${a.slug}.html`),
+    layout({ title: a.title, description: a.description, body: page, file: `blog/${a.slug}.html`, base, faq: /<details>/.test(body), extraLd: ld, ogImage: heroAbs, ogType: "article", navFile: "blog.html" }));
+  urls.push(`blog/${a.slug}.html`);
+}
+// blog index
+{
+  const base = "";
+  const body = `<section class="page-hero"><div class="container">
+<span class="eyebrow">Roofing tips</span><h1>Roofing tips and prices in Nigeria</h1>
+<p class="lead">Straight answers to the questions people ask us every day: what a roof costs, which sheet to buy, how much wood you need and how to stop a leak.</p>
+</div></section>
+<section class="section"><div class="container"><div class="grid grid-3">${articles.map((a) => articleCard(a, base)).join("\n")}</div></div></section>`;
+  fs.writeFileSync(path.join(OUT, "blog.html"), layout({ title: "Roofing Tips and Prices in Nigeria", description: "Roofing costs, sheet prices, wood estimates, leak repairs and buying tips for Nigerian homeowners, from HolyTouch Roofing in Ibadan and Lagos.", body, file: "blog.html", base }));
+  urls.push("blog.html");
+}
+
 fs.writeFileSync(path.join(OUT, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${site.siteUrl}/${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${site.siteUrl}/sitemap.xml\n`);
