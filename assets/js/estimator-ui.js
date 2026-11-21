@@ -53,7 +53,8 @@
     var P = S.profiles[r.inputs.profile];
     var isSheet = P.unit === "sheet";
     var shapeName = { gable: "Gable", hip: "Hip", flat: "Flat / low-slope" }[r.inputs.shape];
-    var matName = P.label + (isSheet ? " " + r.inputs.thickness + " mm" : "");
+    var thAdvise = r.inputs.thickness === "advise";
+    var matName = P.label + (isSheet ? (thAdvise ? " (thickness to advise)" : " " + r.inputs.thickness + " mm") : "");
 
     var scope = val("scope") || "both";
     var wantRoof = scope !== "wood", wantWood = scope !== "roof";
@@ -67,8 +68,8 @@
     var rp = wantRoof ? r.price : null, wp = wantWood ? r.woodPrice : null;
     if (rp || wp) {
       h += '<div class="price-box"><span>Materials cost (estimate)</span><table class="price-table">';
-      if (wantRoof) h += '<tr><td>Roofing</td><td>' + (rp ? naira(rp.low) + " – " + naira(rp.high) : "Ask us") + "</td></tr>";
-      if (wantWood) h += '<tr><td>Wood work</td><td>' + (wp ? naira(wp.low) + " – " + naira(wp.high) : "Ask us") + "</td></tr>";
+      if (wantRoof) h += '<tr><td>Roofing</td><td>' + (rp ? naira(rp.low) + " – " + naira(rp.high) : "Price on WhatsApp") + "</td></tr>";
+      if (wantWood) h += '<tr><td>Wood work</td><td>' + (wp ? naira(wp.low) + " – " + naira(wp.high) : "Price on WhatsApp") + "</td></tr>";
       if (wantRoof && wantWood && rp && wp) h += '<tr class="total"><td>Total</td><td>' + naira(rp.low + wp.low) + " – " + naira(rp.high + wp.high) + "</td></tr>";
       h += "</table><small>Using our prices from " + (rp || wp).asOf + ". Workmanship and transport are added in the quotation.</small></div>";
     }
@@ -92,6 +93,7 @@
       h += row("Gutter (if needed, priced separately)", fmt(r.lines.gutter) + " m");
       h += "</table>";
       if (rp) h += '<p class="subtotal">Roofing materials: <strong>' + naira(rp.low) + " – " + naira(rp.high) + "</strong></p>";
+      else if (isSheet) h += '<p class="disclaimer">' + (thAdvise ? "We will advise on the best thickness and send you the price." : "Send this to us on WhatsApp for the price of " + r.inputs.thickness + " mm sheets.") + "</p>";
       r.notes.forEach(function (n) { h += '<p class="disclaimer">' + n + "</p>"; });
       h += "</div>";
     }

@@ -17,14 +17,14 @@ window.HT_SETTINGS = {
       unit: "sheet",
       coverWidthM: 0.686,       // effective cover width after side lap (DEFAULT)
       roundLengthToM: 0.1,
-      thicknesses: ["0.45", "0.55"],
+      thicknesses: ["0.40", "0.45", "0.50", "0.55", "0.60", "0.70"],
     },
     steptile: {
       label: "Step tile aluminium",
       unit: "sheet",
       coverWidthM: 1.0,         // DEFAULT, confirm with supplier
       roundLengthToM: 0.1,
-      thicknesses: ["0.45", "0.55"],
+      thicknesses: ["0.40", "0.45", "0.50", "0.55", "0.60", "0.70"],
     },
     stonecoated: {
       label: "Stone coated tiles",
