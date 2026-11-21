@@ -68,9 +68,11 @@
         </div>
 
         <div class="row-2">
-          <div class="field" id="pitch-row"><label for="pitch">Roof slope (degrees)</label><input id="pitch" name="pitch" type="number" min="5" max="45" step="1"><div class="hint">If you don't know, leave it at 18°.</div></div>
+          <div class="field" id="pitch-row"><label for="pitch">Roof slope (degrees)</label><input id="pitch" name="pitch" type="number" min="5" max="45" step="1"><div class="hint">If you don't know, leave it as it is, or fill in the roof height below.</div></div>
           <div class="field"><label for="overhang">Eave overhang (m)</label><input id="overhang" name="overhang" type="number" min="0" max="1.5" step="0.05"><div class="hint">How far the roof comes out past the wall.</div></div>
         </div>
+
+        <div class="field" id="rise-row"><label for="rise">Roof height, if you know it (m)</label><input id="rise" name="rise" type="number" inputmode="decimal" min="0" step="0.05" placeholder="From the top of the wall to the ridge, e.g. 1.8"><div class="hint">If you fill this in, we work out the slope for you.</div></div>
 
         <div class="field" id="profile-row"><label for="profile">Roofing material</label>
           <select id="profile" name="profile">

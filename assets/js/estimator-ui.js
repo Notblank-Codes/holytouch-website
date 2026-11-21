@@ -22,6 +22,13 @@
       length: val("length"), width: val("width"), shape: val("shape"),
       pitch: val("pitch"), overhang: val("overhang"), profile: val("profile"), thickness: val("thickness"),
     };
+    var rise = Number(val("rise"));
+    var Lr = Number(input.length), Wr = Number(input.width);
+    if (rise > 0 && Lr > 0 && Wr > 0 && input.shape !== "flat") {
+      var run = Math.min(Lr, Wr) / 2;
+      input.pitch = (Math.atan(rise / run) * 180 / Math.PI).toFixed(1);
+      var pi = form.querySelector("#pitch"); if (pi) pi.value = Math.round(input.pitch);
+    }
     var pitchRow = document.getElementById("pitch-row");
     if (pitchRow) pitchRow.hidden = input.shape === "flat";
     var thRow = document.getElementById("thickness-row");
@@ -54,7 +61,7 @@
 
     var h = '<div class="card result-card">';
     h += '<span class="eyebrow">Your estimate · ' + scopeName + '</span>';
-    h += '<div class="big">' + fmt(r.roofArea) + ' m²</div><p class="disclaimer" style="margin-top:6px">Roof size, including ' + fmt(r.inputs.overhang, 2) + ' m overhang · ' + shapeName + ' roof, ' + fmt(r.inputs.pitchDeg, 0) + '° · floor plan ' + fmt(r.planArea) + ' m²</p>';
+    h += '<p class="disclaimer" style="margin:2px 0 0">' + shapeName + ' roof, ' + fmt(r.inputs.pitchDeg, 0) + '° slope, ' + fmt(r.inputs.overhang, 2) + ' m overhang</p>';
 
     // ---- Price summary ----
     var rp = wantRoof ? r.price : null, wp = wantWood ? r.woodPrice : null;
@@ -65,6 +72,13 @@
       if (wantRoof && wantWood && rp && wp) h += '<tr class="total"><td>Total</td><td>' + naira(rp.low + wp.low) + " – " + naira(rp.high + wp.high) + "</td></tr>";
       h += "</table><small>Using our prices from " + (rp || wp).asOf + ". Workmanship and transport are added in the quotation.</small></div>";
     }
+
+    // ---- Sizes (clearly labelled so no one mistakes them for a price unit) ----
+    h += '<div class="est-block"><h3>Sizes</h3><table>';
+    h += row("Floor area of the building", fmt(r.planArea) + " m²");
+    h += row("Roof surface to cover<br><small>sloped, with the overhang. Larger than the floor area</small>", fmt(r.roofArea) + " m²");
+    if (wantRoof && r.sheets) h += row("Roofing sheet to buy<br><small>sheets are sold by the running metre</small>", fmt(r.sheets.totalM) + " m");
+    h += "</table></div>";
 
     // ---- 1. Roofing ----
     if (wantRoof) {
