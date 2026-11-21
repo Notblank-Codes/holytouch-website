@@ -104,7 +104,7 @@ function layout({ title, description, body, file, base, scripts = [], faq = fals
     url: site.siteUrl + "/",
     telephone: site.phoneIntl,
     logo: `${site.siteUrl}/assets/img/logo/holytouch-icon.svg`,
-    image: `${site.siteUrl}/assets/img/og-image.png`,
+    image: `${site.siteUrl}/assets/img/share-image.png`,
     address: { "@type": "PostalAddress", streetAddress: site.street, addressLocality: "Ibadan", addressRegion: "Oyo", addressCountry: "NG" },
     areaServed: [{ "@type": "City", name: "Ibadan" }, { "@type": "City", name: "Lagos" }, { "@type": "Country", name: "Nigeria" }],
     sameAs: Object.values(site.social).filter(Boolean),
@@ -131,7 +131,7 @@ function layout({ title, description, body, file, base, scripts = [], faq = fals
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 ${faq ? `<script type="application/ld+json">${JSON.stringify(faqLd(body))}</script>` : ""}
 ${extraLd.map((o) => `<script type="application/ld+json">${JSON.stringify(o)}</script>`).join("\n")}
-<meta property="og:image" content="${ogImage || site.siteUrl + "/assets/img/og-image.png"}">
+<meta property="og:image" content="${ogImage || site.siteUrl + "/assets/img/share-image.png"}">
 <meta property="og:site_name" content="${esc(site.name)}">
 <meta property="og:locale" content="en_NG">
 <meta name="twitter:card" content="summary_large_image">
@@ -314,7 +314,7 @@ ${body}
     { "@context": "https://schema.org", "@type": "BlogPosting", headline: a.h1, description: a.description, image: [heroAbs],
       datePublished: a.date, dateModified: a.updated || a.date, mainEntityOfPage: url, keywords: a.keywords.join(", "),
       author: { "@type": "Organization", name: site.name, url: site.siteUrl + "/" },
-      publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: `${site.siteUrl}/assets/img/og-image.png` } } },
+      publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: `${site.siteUrl}/assets/img/share-image.png` } } },
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: site.siteUrl + "/" },
       { "@type": "ListItem", position: 2, name: "Roofing tips", item: `${site.siteUrl}/blog.html` },
