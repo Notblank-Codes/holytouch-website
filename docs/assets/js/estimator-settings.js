@@ -69,8 +69,14 @@ window.HT_SETTINGS = {
     rangeHigh: 1.1,
     // ridge cap rate assumed equal to flashing rate: confirm with HolyTouch
     longspan: {
+      // 0.45 and 0.55: HolyTouch quotations. Others: ESTIMATES, from Lagos dealer
+      // price lists (Nov 2026) scaled to HolyTouch's price level. CONFIRM with HolyTouch.
+      "0.40": { sheetPerM: 6900, ridgePerM: 1050, bargePerM: 1050, fasciaPerM: 6900, eavesAnglePerM: 1900 },
       "0.45": { sheetPerM: 7300, ridgePerM: 1100, bargePerM: 1100, fasciaPerM: 7300, eavesAnglePerM: 1900 },
+      "0.50": { sheetPerM: 8400, ridgePerM: 1750, bargePerM: 1750, fasciaPerM: 8400, eavesAnglePerM: 1900 },
       "0.55": { sheetPerM: 9500, ridgePerM: 2425, bargePerM: 2425, fasciaPerM: 9500, eavesAnglePerM: 1900 },
+      "0.60": { sheetPerM: 11500, ridgePerM: 2950, bargePerM: 2950, fasciaPerM: 11500, eavesAnglePerM: 1900 },
+      "0.70": { sheetPerM: 15300, ridgePerM: 3900, bargePerM: 3900, fasciaPerM: 15300, eavesAnglePerM: 1900 },
     },
     screwPacket: 3000,
     seamBoltPacket: 2500,
