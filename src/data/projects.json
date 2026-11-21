@@ -1,5 +1,37 @@
 [
   {
+    "slug": "blue-longspan-bungalow",
+    "title": "Blue longspan hip roof on a bungalow",
+    "year": "2017",
+    "tags": [
+      "Longspan"
+    ],
+    "summary": "Blue longspan hip roof with fascia all round, on a bungalow with an arched front porch.",
+    "story": "A bungalow with several roof sections joined together, finished in blue longspan with ridge caps on every hip and matching fascia round the whole building.",
+    "photos": [
+      {
+        "alt": "Blue longspan hip roof on a bungalow with an arched porch"
+      },
+      {
+        "alt": "Side view of the blue longspan roof and fascia on a bungalow"
+      }
+    ]
+  },
+  {
+    "slug": "black-stone-coated-dormers",
+    "title": "Black stone coated roof with roof vents",
+    "tags": [
+      "Stone coated"
+    ],
+    "summary": "Black stone coated tiles on a large bungalow, with small vented gables on the hips and white fascia.",
+    "story": "A large bungalow with many roof sections, covered in black stone coated tiles. Small vented gables sit on the hips to let hot air out of the roof, and white fascia runs round the edge.",
+    "photos": [
+      {
+        "alt": "Large bungalow with a black stone coated roof, small vented gables and white fascia"
+      }
+    ]
+  },
+  {
     "slug": "two-storey-gold-longspan",
     "title": "Two-storey building: wood work and gold longspan roof",
     "year": "2022",
@@ -37,6 +69,21 @@
     ]
   },
   {
+    "slug": "shingle-stone-coated-gutters",
+    "title": "Shingle-style stone coated roof with gutters",
+    "tags": [
+      "Stone coated",
+      "Gutters"
+    ],
+    "summary": "Grey shingle-pattern stone coated tiles, finished with white gutters along the roof edge.",
+    "story": "A bungalow roofed with shingle-pattern stone coated tiles in black and grey, with a separate roof over the porch and white rain gutters fitted along the edges.",
+    "photos": [
+      {
+        "alt": "Shingle-style stone coated roof with white gutters on a bungalow"
+      }
+    ]
+  },
+  {
     "slug": "hip-roof-bungalow-vent",
     "title": "Hip roof on a bungalow, longspan with roof vent",
     "year": "2022",
@@ -61,38 +108,6 @@
     ]
   },
   {
-    "slug": "blue-longspan-bungalow",
-    "title": "Blue longspan hip roof on a bungalow",
-    "year": "2017",
-    "tags": [
-      "Longspan"
-    ],
-    "summary": "Blue longspan hip roof with fascia all round, on a bungalow with an arched front porch.",
-    "story": "A bungalow with several roof sections joined together, finished in blue longspan with ridge caps on every hip and matching fascia round the whole building.",
-    "photos": [
-      {
-        "alt": "Blue longspan hip roof on a bungalow with an arched porch"
-      },
-      {
-        "alt": "Side view of the blue longspan roof and fascia on a bungalow"
-      }
-    ]
-  },
-  {
-    "slug": "black-stone-coated-dormers",
-    "title": "Black stone coated roof with roof vents",
-    "tags": [
-      "Stone coated"
-    ],
-    "summary": "Black stone coated tiles on a large bungalow, with small vented gables on the hips and white fascia.",
-    "story": "A large bungalow with many roof sections, covered in black stone coated tiles. Small vented gables sit on the hips to let hot air out of the roof, and white fascia runs round the edge.",
-    "photos": [
-      {
-        "alt": "Large bungalow with a black stone coated roof, small vented gables and white fascia"
-      }
-    ]
-  },
-  {
     "slug": "black-stone-coated-hip-roof",
     "title": "Black stone coated hip roof",
     "tags": [
@@ -106,25 +121,6 @@
       },
       {
         "alt": "Roofer finishing a black stone coated hip roof"
-      }
-    ]
-  },
-  {
-    "slug": "longspan-bungalow-beige",
-    "title": "Longspan roof on a long bungalow",
-    "year": "2022",
-    "tags": [
-      "Longspan",
-      "Wood work"
-    ],
-    "summary": "Beige longspan sheets fixed over a new roof frame on a long bungalow.",
-    "story": "A long bungalow roofed with beige longspan. The photos show the sheets going onto the roof frame and the finished side of the roof with fascia.",
-    "photos": [
-      {
-        "alt": "Roofers finishing a beige longspan roof on a long bungalow"
-      },
-      {
-        "alt": "Team fixing beige longspan sheets onto the roof frame"
       }
     ]
   },
@@ -144,36 +140,6 @@
     ]
   },
   {
-    "slug": "brown-stone-coated-bungalow",
-    "title": "Brown stone coated roof on a bungalow",
-    "year": "2017",
-    "tags": [
-      "Stone coated"
-    ],
-    "summary": "Brown stone coated tiles on a bungalow, with a separate roof over the porch.",
-    "story": "A bungalow roofed with brown stone coated tiles, with its own small hip roof over the front porch and fascia round the edges.",
-    "photos": [
-      {
-        "alt": "Bungalow with a brown stone coated tile roof and porch roof"
-      }
-    ]
-  },
-  {
-    "slug": "shingle-stone-coated-gutters",
-    "title": "Shingle-style stone coated roof with gutters",
-    "tags": [
-      "Stone coated",
-      "Gutters"
-    ],
-    "summary": "Grey shingle-pattern stone coated tiles, finished with white gutters along the roof edge.",
-    "story": "A bungalow roofed with shingle-pattern stone coated tiles in black and grey, with a separate roof over the porch and white rain gutters fitted along the edges.",
-    "photos": [
-      {
-        "alt": "Shingle-style stone coated roof with white gutters on a bungalow"
-      }
-    ]
-  },
-  {
     "slug": "brown-longspan-bungalow",
     "title": "Brown longspan roof on a bungalow",
     "year": "2017",
@@ -185,6 +151,21 @@
     "photos": [
       {
         "alt": "Roofers finishing a brown longspan roof on a bungalow"
+      }
+    ]
+  },
+  {
+    "slug": "brown-stone-coated-bungalow",
+    "title": "Brown stone coated roof on a bungalow",
+    "year": "2017",
+    "tags": [
+      "Stone coated"
+    ],
+    "summary": "Brown stone coated tiles on a bungalow, with a separate roof over the porch.",
+    "story": "A bungalow roofed with brown stone coated tiles, with its own small hip roof over the front porch and fascia round the edges.",
+    "photos": [
+      {
+        "alt": "Bungalow with a brown stone coated tile roof and porch roof"
       }
     ]
   },
