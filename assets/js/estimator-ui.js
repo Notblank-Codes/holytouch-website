@@ -25,7 +25,10 @@
     var pitchRow = document.getElementById("pitch-row");
     if (pitchRow) pitchRow.hidden = input.shape === "flat";
     var thRow = document.getElementById("thickness-row");
-    if (thRow) thRow.hidden = S.profiles[input.profile].unit !== "sheet";
+    var woodOnly = val("scope") === "wood";
+    if (thRow) thRow.hidden = woodOnly || S.profiles[input.profile].unit !== "sheet";
+    var profRow = document.getElementById("profile-row");
+    if (profRow) profRow.hidden = woodOnly;
 
     if (input.shape === "complex") {
       out.innerHTML = '<div class="card result-card"><span class="eyebrow">Complex roof</span><h2>Send us your plan</h2><p>For L-shaped roofs, valleys and roofs on more than one level, we work the materials out from your building plan. Send a picture of it on WhatsApp.</p>' +
@@ -45,53 +48,71 @@
     var shapeName = { gable: "Gable", hip: "Hip", flat: "Flat / low-slope" }[r.inputs.shape];
     var matName = P.label + (isSheet ? " " + r.inputs.thickness + " mm" : "");
 
+    var scope = val("scope") || "both";
+    var wantRoof = scope !== "wood", wantWood = scope !== "roof";
+    var scopeName = { both: "Roofing and wood work", roof: "Roofing only", wood: "Wood work only" }[scope];
+
     var h = '<div class="card result-card">';
-    h += '<span class="eyebrow">Your estimate</span>';
+    h += '<span class="eyebrow">Your estimate · ' + scopeName + '</span>';
     h += '<div class="big">' + fmt(r.roofArea) + ' m²</div><p class="disclaimer" style="margin-top:6px">Roof size, including ' + fmt(r.inputs.overhang, 2) + ' m overhang · ' + shapeName + ' roof, ' + fmt(r.inputs.pitchDeg, 0) + '° · floor plan ' + fmt(r.planArea) + ' m²</p>';
 
-    if (r.price) {
-      h += '<div class="price-box"><span>Materials cost (estimate)</span><strong>' + naira(r.price.low) + " – " + naira(r.price.high) + '</strong><small>Using our prices from ' + r.price.asOf + '. Workmanship and transport are added in the quotation.</small></div>';
+    // ---- Price summary ----
+    var rp = wantRoof ? r.price : null, wp = wantWood ? r.woodPrice : null;
+    if (rp || wp) {
+      h += '<div class="price-box"><span>Materials cost (estimate)</span><table class="price-table">';
+      if (wantRoof) h += '<tr><td>Roofing</td><td>' + (rp ? naira(rp.low) + " – " + naira(rp.high) : "Ask us") + "</td></tr>";
+      if (wantWood) h += '<tr><td>Wood work</td><td>' + (wp ? naira(wp.low) + " – " + naira(wp.high) : "Ask us") + "</td></tr>";
+      if (wantRoof && wantWood && rp && wp) h += '<tr class="total"><td>Total</td><td>' + naira(rp.low + wp.low) + " – " + naira(rp.high + wp.high) + "</td></tr>";
+      h += "</table><small>Using our prices from " + (rp || wp).asOf + ". Workmanship and transport are added in the quotation.</small></div>";
     }
 
-    h += '<h3>Materials</h3><table>';
-    if (r.sheets) {
-      h += row(matName, r.sheets.exact ? r.sheets.count + " sheets × " + fmt(r.sheets.lengthM) + " m = " + fmt(r.sheets.totalM) + " m" : fmt(r.sheets.totalM) + " m");
-    }
-    if (r.tiles) h += row(matName, fmt(r.tiles.count, 0) + " tiles");
-    if (r.lines.ridgeCaps) h += row("Ridge cap" + (r.lines.hips ? " (ridge + hips)" : ""), fmt(r.lines.ridgeCaps) + " m");
-    if (r.lines.verge) h += row("Barge board", fmt(r.lines.verge) + " m");
-    h += row("Fascia cladding", fmt(r.lines.eaves) + " m");
-    h += row("Eaves angle", fmt(r.lines.eaves) + " m");
-    h += row("Gutter (if needed)", fmt(r.lines.gutter) + " m");
-    h += "</table>";
-    r.notes.forEach(function (n) { h += '<p class="disclaimer">' + n + "</p>"; });
-
-    if (isSheet) {
-      h += '<h3>Screws and sealant</h3><table>';
-      h += row("Drive screws", r.fixings.screwPackets + " packets");
-      h += row("Seam bolts", r.fixings.seamBoltPackets + " packets");
-      h += row("Rivet nails", r.fixings.rivetPackets + " packets");
-      h += row("Silicone sealant", r.fixings.siliconeTubes + " tubes");
-      h += row("Flash band", r.fixings.flashBandRolls + " roll");
+    // ---- 1. Roofing ----
+    if (wantRoof) {
+      h += '<div class="est-block"><h3><span class="num">1</span> Roofing materials</h3><table>';
+      if (r.sheets) h += row(matName, r.sheets.exact ? r.sheets.count + " sheets × " + fmt(r.sheets.lengthM) + " m = " + fmt(r.sheets.totalM) + " m" : fmt(r.sheets.totalM) + " m");
+      if (r.tiles) h += row(matName, fmt(r.tiles.count, 0) + " tiles");
+      if (r.lines.ridgeCaps) h += row("Ridge cap" + (r.lines.hips ? " (ridge + hips)" : ""), fmt(r.lines.ridgeCaps) + " m");
+      if (r.lines.verge) h += row("Barge board", fmt(r.lines.verge) + " m");
+      h += row("Fascia cladding", fmt(r.lines.eaves) + " m");
+      h += row("Eaves angle", fmt(r.lines.eaves) + " m");
+      if (isSheet) {
+        h += row("Drive screws", r.fixings.screwPackets + " packets");
+        h += row("Seam bolts", r.fixings.seamBoltPackets + " packets");
+        h += row("Rivet nails", r.fixings.rivetPackets + " packets");
+        h += row("Silicone sealant", r.fixings.siliconeTubes + " tubes");
+        h += row("Flash band", r.fixings.flashBandRolls + " roll");
+      }
+      h += row("Gutter (if needed, priced separately)", fmt(r.lines.gutter) + " m");
       h += "</table>";
+      if (rp) h += '<p class="subtotal">Roofing materials: <strong>' + naira(rp.low) + " – " + naira(rp.high) + "</strong></p>";
+      r.notes.forEach(function (n) { h += '<p class="disclaimer">' + n + "</p>"; });
+      h += "</div>";
     }
 
-    h += '<h3>Wood (rough guide)</h3><table>';
-    h += row("Rafters (" + r.timber.rafters.size + ")", fmt(r.timber.rafters.pieces, 0) + " pcs");
-    h += row("Purlins (" + r.timber.purlins.size + ")", fmt(r.timber.purlins.pieces, 0) + " pcs");
-    h += row("Wall plate (" + r.timber.wallPlate.size + ")", fmt(r.timber.wallPlate.pieces, 0) + " pcs");
-    h += "</table><p class='disclaimer'>Counted in 12 ft lengths. Truss members and wall flashing depend on your building, so we confirm them on site.</p>";
+    // ---- 2. Wood work ----
+    if (wantWood) {
+      h += '<div class="est-block"><h3><span class="num">' + (wantRoof ? 2 : 1) + '</span> Wood work (carpentry)</h3><table>';
+      h += row("Rafters (" + r.timber.rafters.size + ")", fmt(r.timber.rafters.pieces, 0) + " pieces");
+      h += row("Purlins (" + r.timber.purlins.size + ")", fmt(r.timber.purlins.pieces, 0) + " pieces");
+      h += row("Wall plate (" + r.timber.wallPlate.size + ")", fmt(r.timber.wallPlate.pieces, 0) + " pieces");
+      h += "</table>";
+      if (wp) h += '<p class="subtotal">Wood: <strong>' + naira(wp.low) + " – " + naira(wp.high) + "</strong></p>";
+      h += "<p class='disclaimer'>Counted in 12 ft lengths. The wood count is a guide: the full truss layout (ties, struts, king posts) is confirmed on site.</p></div>";
+    }
 
-    if (!r.price) h += "<h3>Price</h3><p>Send this to HolyTouch on WhatsApp and we will reply with a price.</p>";
+    if (!rp && !wp) h += "<p>Send this to us on WhatsApp and we will reply with a price.</p>";
 
     var msg = [
       "Hello HolyTouch, I used the roof calculator on your website.",
       "Building: " + fmt(r.inputs.L) + " m x " + fmt(r.inputs.W) + " m",
       "Roof: " + shapeName + ", " + fmt(r.inputs.pitchDeg, 0) + "°, overhang " + fmt(r.inputs.overhang, 2) + " m",
-      "Material: " + matName,
-      "Roof area: " + fmt(r.roofArea) + " m²",
-      r.sheets ? "Sheets: " + fmt(r.sheets.totalM) + " m" : "Tiles: " + r.tiles.count,
-      r.price ? "Materials estimate: " + naira(r.price.low) + " – " + naira(r.price.high) : "",
+      "I need: " + scopeName,
+      wantRoof ? "Material: " + matName : "",
+      "Roof size: " + fmt(r.roofArea) + " m²",
+      wantRoof ? (r.sheets ? "Sheets: " + fmt(r.sheets.totalM) + " m" : "Tiles: " + r.tiles.count) : "",
+      rp ? "Roofing materials estimate: " + naira(rp.low) + " – " + naira(rp.high) : "",
+      wantWood ? "Wood: " + r.timber.rafters.pieces + " rafters, " + r.timber.purlins.pieces + " purlins, " + r.timber.wallPlate.pieces + " wall plate" : "",
+      wp ? "Wood estimate: " + naira(wp.low) + " – " + naira(wp.high) : "",
       "Job type: " + val("job"),
       "Location: " + (val("location") || "(not given)"),
       "Please send me a quotation.",

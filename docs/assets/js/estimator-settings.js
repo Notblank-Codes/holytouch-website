@@ -13,21 +13,21 @@ window.HT_SETTINGS = {
 
   profiles: {
     longspan: {
-      label: "Long-span aluminium",
+      label: "Longspan aluminium",
       unit: "sheet",
       coverWidthM: 0.686,       // effective cover width after side lap (DEFAULT)
       roundLengthToM: 0.1,
       thicknesses: ["0.45", "0.55"],
     },
     steptile: {
-      label: "Step-tile aluminium",
+      label: "Step tile aluminium",
       unit: "sheet",
       coverWidthM: 1.0,         // DEFAULT, confirm with supplier
       roundLengthToM: 0.1,
       thicknesses: ["0.45", "0.55"],
     },
     stonecoated: {
-      label: "Stone-coated tiles",
+      label: "Stone coated tiles",
       unit: "tile",
       tilesPerM2: 2.1,          // DEFAULT
     },
@@ -76,5 +76,7 @@ window.HT_SETTINGS = {
     rivetPacket: 2500,
     siliconeTube: 3000,
     flashBandRoll: 2000,
+    // Wood, per 12 ft piece. 2x4 from HolyTouch quotation; 2x3 is a DEFAULT to confirm.
+    wood: { "2x4": 2500, "2x3": 1900 },
   },
 };

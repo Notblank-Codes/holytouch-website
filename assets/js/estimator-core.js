@@ -141,6 +141,24 @@
         asOf: PR.asOf,
       };
     }
+    // ---- Wood price range (separate from roofing) ----
+    if (PR && PR.wood) {
+      var t = res.timber;
+      var witems = [
+        ["Rafters " + t.rafters.size, t.rafters.pieces, PR.wood[t.rafters.size]],
+        ["Purlins " + t.purlins.size, t.purlins.pieces, PR.wood[t.purlins.size]],
+        ["Wall plate " + t.wallPlate.size, t.wallPlate.pieces, PR.wood[t.wallPlate.size]],
+      ];
+      if (witems.every(function (w) { return w[2] > 0; })) {
+        var wt = witems.reduce(function (s2, w) { return s2 + w[1] * w[2]; }, 0);
+        res.woodPrice = {
+          total: Math.round(wt),
+          low: Math.round((wt * PR.rangeLow) / 10000) * 10000,
+          high: Math.round((wt * PR.rangeHigh) / 10000) * 10000,
+          asOf: PR.asOf,
+        };
+      }
+    }
     return res;
   }
 

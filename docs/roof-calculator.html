@@ -43,6 +43,14 @@
 
     <div class="calc" style="margin-top:32px">
       <form id="calc-form" class="card form" novalidate>
+        <div class="field">
+          <span class="field-label">What do you need?</span>
+          <div class="choice scope">
+            <input type="radio" id="sc-both" name="scope" value="both" checked><label for="sc-both">Roofing and wood work</label>
+            <input type="radio" id="sc-roof" name="scope" value="roof"><label for="sc-roof">Roofing only</label>
+            <input type="radio" id="sc-wood" name="scope" value="wood"><label for="sc-wood">Wood work only</label>
+          </div>
+        </div>
         <div class="row-2">
           <div class="field"><label for="length">Building length (m)</label><input id="length" name="length" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 15"></div>
           <div class="field"><label for="width">Building width (m)</label><input id="width" name="width" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 10"></div>
@@ -50,7 +58,7 @@
         <p class="hint disclaimer" style="margin:-6px 0 0">Measure along the outside of the walls. On a building plan, use the full length and width.</p>
 
         <div class="field">
-          <span style="display:block;font-weight:700;font-size:.95rem;margin-bottom:6px">Roof shape</span>
+          <span class="field-label">Roof shape</span>
           <div class="choice">
             <input type="radio" id="s-gable" name="shape" value="gable" checked><label for="s-gable"><svg viewBox="0 0 64 40"><polygon points="4,36 32,6 60,36" fill="#C7CDD4" stroke="#1E2A38" stroke-width="2"/></svg>Gable</label>
             <input type="radio" id="s-hip" name="shape" value="hip"><label for="s-hip"><svg viewBox="0 0 64 40"><polygon points="4,36 22,8 42,8 60,36" fill="#C7CDD4" stroke="#1E2A38" stroke-width="2"/><line x1="22" y1="8" x2="4" y2="36" stroke="#1E2A38" stroke-width="2"/></svg>Hip</label>
@@ -64,11 +72,11 @@
           <div class="field"><label for="overhang">Eave overhang (m)</label><input id="overhang" name="overhang" type="number" min="0" max="1.5" step="0.05"><div class="hint">How far the roof comes out past the wall.</div></div>
         </div>
 
-        <div class="field"><label for="profile">Roofing material</label>
+        <div class="field" id="profile-row"><label for="profile">Roofing material</label>
           <select id="profile" name="profile">
-            <option value="longspan">Long-span aluminium</option>
-            <option value="steptile">Step-tile aluminium</option>
-            <option value="stonecoated">Stone-coated tiles</option>
+            <option value="longspan">Longspan aluminium</option>
+            <option value="steptile">Step tile aluminium</option>
+            <option value="stonecoated">Stone coated tiles</option>
           </select>
           <div class="hint"><a href="materials.html" target="_blank">Compare materials</a></div>
         </div>
