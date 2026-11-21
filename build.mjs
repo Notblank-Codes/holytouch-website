@@ -185,35 +185,40 @@ ${scripts.map((s) => `<script src="${base}assets/js/${s}"></script>`).join("\n")
 
 // ---------- Project cards ----------
 function tagsFor(p) {
-  return [p.type, p.sector].join("|");
+  return p.tags.join("|");
 }
+const pimg = (p, i, sm) => `assets/img/projects/${p.slug}/${String(i + 1).padStart(2, "0")}${sm ? "-sm" : ""}.jpg`;
 function projectCard(p, base) {
   return `<a class="project" href="${base}projects/${p.slug}.html" data-tags="${esc(tagsFor(p))}">
-  <div class="img"><img src="${base}assets/img/placeholders/${p.slug}.svg" alt="${esc(p.title)} (placeholder picture)" loading="lazy" width="800" height="600"></div>
+  <div class="img"><img src="${base}${pimg(p, 0, true)}" alt="${esc(p.photos[0].alt)}" loading="lazy" width="720" height="540"></div>
   <div class="body"><h3>${esc(p.title)}</h3>
-  <div class="meta">${p.placeholder ? '<span class="tag example">Example</span>' : ""}<span class="tag">${esc(p.location)}</span><span class="tag">${esc(p.type)}</span><span class="tag">${p.sizeM2} m²</span></div></div></a>`;
+  <div class="meta">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}<span class="tag">${p.photos.length} photo${p.photos.length > 1 ? "s" : ""}</span></div></div></a>`;
 }
 function projectPage(p) {
   const base = "../";
-  const body = `<section class="section"><div class="container" style="max-width:900px">
-  <a href="${base}projects.html">← All projects</a>
-  <h1 style="margin-top:14px">${esc(p.title)}</h1>
-  ${p.placeholder ? '<p class="callout">This is an example project with a placeholder picture. Real HolyTouch jobs with photos will replace it soon.</p>' : ""}
-  <div class="hero-img" style="margin-top:20px"><img src="${base}assets/img/placeholders/${p.slug}.svg" alt="${esc(p.title)} (placeholder picture)" width="800" height="600"></div>
-  <dl class="spec">
-    <div><dt>Location</dt><dd>${esc(p.location)}</dd></div>
-    <div><dt>Job</dt><dd>${esc(p.type)}</dd></div>
-    <div><dt>Roof size</dt><dd>${p.sizeM2} m²</dd></div>
-    <div><dt>Material</dt><dd>${esc(p.material)}</dd></div>
-    <div><dt>Colour</dt><dd>${esc(p.colour)}</dd></div>
-    <div><dt>Duration</dt><dd>${esc(p.duration)}</dd></div>
-  </dl>
-  <p class="lead">${esc(p.story)}</p>
-  <div class="btn-row" style="margin-top:24px">
-    <a class="btn btn-wa" href="${waHref(`Hello HolyTouch Roofing, I saw the "${p.title}" project on your website and would like something similar.`)}" target="_blank" rel="noopener">${ICONS.whatsapp} I want a roof like this</a>
+  const gallery = p.photos.map((ph, i) => `<a class="gallery-item" href="${base}${pimg(p, i)}" target="_blank" rel="noopener"><img src="${base}${pimg(p, i, true)}" alt="${esc(ph.alt)}" loading="${i < 2 ? "eager" : "lazy"}"></a>`).join("\n");
+  const body = `<section class="page-hero"><div class="container">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="${base}index.html">Home</a> › <a href="${base}projects.html">Projects</a></nav>
+  <h1>${esc(p.title)}</h1>
+  <p class="lead">${esc(p.summary)}</p>
+</div></section>
+<section class="section"><div class="container">
+  <div class="hero-img project-cover"><img src="${base}${pimg(p, 0)}" alt="${esc(p.photos[0].alt)}"></div>
+  <div class="grid grid-2 project-info" style="margin-top:28px;align-items:start">
+    <div><h2>About this job</h2><p>${esc(p.story)}</p></div>
+    <dl class="spec" style="margin:0">
+      <div><dt>Work</dt><dd>${esc(p.tags.join(", "))}</dd></div>
+      <div><dt>Year</dt><dd>${esc(p.year)}</dd></div>
+      <div><dt>Photos</dt><dd>${p.photos.length}</dd></div>
+    </dl>
+  </div>
+  ${p.photos.length > 1 ? `<h2 style="margin-top:40px">Photos</h2><div class="gallery">${gallery}</div>` : ""}
+  <div class="btn-row" style="margin-top:32px">
+    <a class="btn btn-primary" href="${waHref(`Hello HolyTouch, I saw the "${p.title}" job on your website and I would like something similar.`)}" target="_blank" rel="noopener">${ICONS.whatsapp} I want a roof like this</a>
     <a class="btn btn-ghost" href="${base}roof-calculator.html">Estimate my roof</a>
-  </div></div></section>`;
-  return layout({ title: p.title, description: `${p.title} in ${p.location}: ${p.material}, ${p.sizeM2} m². ${p.story}`, body, file: `projects/${p.slug}.html`, base });
+  </div>
+</div></section>`;
+  return layout({ title: p.title, description: `${p.summary} Roofing by HolyTouch, Ibadan and Lagos.`, body, file: `projects/${p.slug}.html`, base, navFile: "projects.html", ogImage: `${site.siteUrl}/${pimg(p, 0)}` });
 }
 
 // ---------- Build ----------
@@ -222,11 +227,6 @@ fs.mkdirSync(path.join(OUT, "projects"), { recursive: true });
 fs.cpSync(path.join(ROOT, "assets"), path.join(OUT, "assets"), { recursive: true });
 fs.mkdirSync(path.join(OUT, "assets/img/placeholders"), { recursive: true });
 
-// placeholder pictures
-projects.forEach((p, i) => {
-  const kind = /stone/i.test(p.material) ? "stonecoated" : /step/i.test(p.material) ? "steptile" : "longspan";
-  fs.writeFileSync(path.join(OUT, `assets/img/placeholders/${p.slug}.svg`), roofSVG({ colour: p.roofColour, kind, id: "p" + i }));
-});
 fs.writeFileSync(path.join(OUT, "assets/img/placeholders/hero.svg"), roofSVG({ colour: "#8E3428", kind: "longspan", label: "Placeholder photo", id: "h" }));
 fs.writeFileSync(path.join(OUT, "assets/img/placeholders/about.svg"), roofSVG({ colour: "#2E5E8C", kind: "steptile", label: "Placeholder photo", id: "a" }));
 

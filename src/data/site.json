@@ -14,7 +14,7 @@
   "hours": "Monday to Saturday, 8am to 6pm",
   "siteUrl": "https://notblank-codes.github.io/holytouch-website",
   "logo": "option-a",
-  "previewNotice": true,
+  "previewNotice": false,
   "locations": "Ibadan and Lagos",
   "whatsappDisplay": "0803 376 1125",
   "address2": "Lagos",
