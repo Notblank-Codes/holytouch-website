@@ -104,6 +104,7 @@
       r.timber.items.forEach(function (w) { h += row(w[0] + " (" + w[1] + ")", fmt(w[2], 0) + " pieces"); });
       h += "</table>";
       if (wp) h += '<p class="subtotal">Wood: <strong>' + naira(wp.low) + " – " + naira(wp.high) + "</strong></p>";
+      else h += '<p class="subtotal">Wood price: <strong>on WhatsApp</strong></p>';
       h += "<p class='disclaimer'>Based on " + r.timber.trusses + " trusses, counted in 12 ft lengths. Nails and ceiling noggins are not included. We confirm the wood on site.</p></div>";
     }
 

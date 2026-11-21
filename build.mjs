@@ -100,6 +100,7 @@ function layout({ title, description, body, file, base, scripts = [], faq = fals
     "@context": "https://schema.org",
     "@type": "RoofingContractor",
     name: site.name,
+    legalName: site.legalName,
     url: site.siteUrl + "/",
     telephone: site.phoneIntl,
     logo: `${site.siteUrl}/assets/img/logo/mark-a.svg`,
@@ -169,7 +170,7 @@ ${body}
       <li><a href="${base}faq.html">FAQ</a></li>
       <li><a href="${base}blog.html">Roofing tips</a></li></ul></div>
   </div>
-  <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(site.name)}</div>
+  <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(site.name)} · run by ${esc(site.legalName)}</div>
 </div></footer>
 <a class="wa-float" href="${waHref("Hello HolyTouch, I would like a quotation for roofing.")}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${ICONS.whatsapp}</a>
 <nav class="mobile-bar" aria-label="Quick contact">
@@ -262,7 +263,7 @@ const articles = fs.existsSync(artDir) ? fs.readdirSync(artDir).filter((x) => x.
   const meta = JSON.parse(m[1]);
   raw = raw.replace(/^<!--[\s\S]*?-->\s*/, "");
   return { ...meta, slug: f.replace(/\.html$/, ""), raw };
-}).sort((a, b) => (a.order || 99) - (b.order || 99)) : [];
+}).filter((a) => !a.draft).sort((a, b) => (a.order || 99) - (b.order || 99)) : [];
 fs.mkdirSync(path.join(OUT, "blog"), { recursive: true });
 function imgUrl(img, w) {
   if (img.pexels) return `https://images.pexels.com/photos/${img.pexels}/pexels-photo-${img.pexels}.jpeg?auto=compress&cs=tinysrgb&w=${w}`;

@@ -158,7 +158,7 @@
       };
     }
     // ---- Wood price range (separate from roofing) ----
-    if (PR && PR.wood) {
+    if (PR && PR.wood && PR.woodPricesOn !== false) {
       var wt = 0, ok = true;
       res.timber.items.forEach(function (w) { var pr = PR.wood[w[1]]; if (!(pr > 0)) ok = false; else wt += w[2] * pr; });
       if (ok) {

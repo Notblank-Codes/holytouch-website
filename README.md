@@ -1,6 +1,6 @@
 # HolyTouch Roofing Ltd website
 
-Website for HolyTouch Roofing Ltd, Ibadan: aluminium roofing, re-roofing and repairs across Nigeria.
+Website for HolyTouch Roofing (HolyTouch Aluminium Systems Enterprises), Ibadan and Lagos: aluminium roofing, re-roofing and repairs across Nigeria.
 
 ## How it is built
 - Plain HTML, CSS and JavaScript. No packages to install.

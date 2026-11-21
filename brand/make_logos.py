@@ -91,7 +91,7 @@ def option_a(dark=False):
     sub = "#AEB6C0" if dark else METAL
     m = mark_a(stem=main)
     d1, w1 = text_path("HOLYTOUCH", "xb", 46, 92, 52, tracking=0.01)
-    d2, w2 = text_path("ROOFING LTD", "sb", 15.5, 94, 76, tracking=0.28)
+    d2, w2 = text_path("ROOFING", "sb", 15.5, 94, 76, tracking=0.32)
     w = int(max(92 + w1, 94 + w2) + 12)
     body = g(m, 4, 8, 1.25) + f'<path d="{d1}" fill="{main}"/><path d="{d2}" fill="{sub}"/>'
     return svg(w, 96, body)
@@ -102,7 +102,7 @@ def option_b(dark=False):
     main = WHITE if dark else SLATE
     m = mark_b(tile=ORANGE if dark else SLATE, roof=WHITE if dark else ORANGE)
     d1, w1 = text_path("HolyTouch", "xb", 44, 98, 48)
-    d2, w2 = text_path("Roofing Ltd", "md", 22, 99, 78, tracking=0.02)
+    d2, w2 = text_path("Roofing", "md", 22, 99, 78, tracking=0.02)
     w = int(max(98 + w1, 99 + w2) + 12)
     body = g(m, 4, 6, 1.32) + f'<path d="{d1}" fill="{main}"/><path d="{d2}" fill="{ORANGE if not dark else "#F3A26E"}"/>'
     return svg(w, 96, body)

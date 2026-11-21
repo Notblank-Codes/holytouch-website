@@ -85,6 +85,7 @@ window.HT_SETTINGS = {
     flashBandRoll: 2000,
     // Wood, per 12 ft piece. 2x4 from HolyTouch quotation (₦2,500); the others are
     // estimated from it using usual market ratios between sizes. CONFIRM with HolyTouch.
+    woodPricesOn: false,      // wood prices hidden until HolyTouch's own method and prices are set
     wood: { "2x2": 1100, "2x3": 1600, "2x4": 2500, "2x6": 3400, "3x4": 3400, "1x12": 6500 },
   },
 };
