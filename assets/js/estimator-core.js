@@ -68,12 +68,25 @@
         var count = 2 * Math.ceil(Lp / cw - 1e-9) + 2 * Math.ceil(Wp / cw - 1e-9);
         var totalM = (roofArea / cw) * (1 + S.hipCuttingAllowance);
         res.sheets = { count: count, lengthM: r1(len), totalM: r1(totalM), exact: false };
-        res.notes.push("On a hip roof the sheets get shorter towards the hips, so the total is given in running metres including a cutting allowance.");
+        res.notes.push("On a hip roof the sheets get shorter towards the hips, so the total is given in running metres.");
       }
     } else {
       var waste = S.tileWaste + (shape === "hip" ? S.hipCuttingAllowance : 0);
       res.tiles = { count: Math.ceil(roofArea * P.tilesPerM2 * (1 + waste)) };
     }
+
+    // ---- Quantity factor (internal) ----
+    var k = 1 + (S.q || 0);
+    if (res.sheets) {
+      if (res.sheets.exact) {
+        res.sheets.count = shape === "gable" ? Math.ceil(res.sheets.count * k / 2 - 1e-9) * 2 : Math.ceil(res.sheets.count * k - 1e-9);
+        res.sheets.totalM = r1(res.sheets.count * res.sheets.lengthM);
+      } else {
+        res.sheets.totalM = r1(res.sheets.totalM * k);
+      }
+    }
+    if (res.tiles) res.tiles.count = Math.ceil(res.tiles.count * k - 1e-9);
+    ["ridge", "hips", "ridgeCaps", "gutter", "verge"].forEach(function (key) { res.lines[key] = r1(res.lines[key] * k); });
 
     // ---- Fixings and sealants (HolyTouch packet rates, per metre of sheet) ----
     var F = S.fixings;
@@ -95,7 +108,7 @@
     var purlinM = roofArea / T.purlinSpacingM;
     var wallPlateM = 2 * (L + W);
     var ridgeBoardM = ridge;
-    function pieces(m) { return Math.ceil((m * (1 + T.waste)) / T.pieceLengthM - 1e-9); }
+    function pieces(m) { return Math.ceil((m * k * (1 + T.waste)) / T.pieceLengthM - 1e-9); }
     res.timber = {
       rafters: { size: T.rafterSize, metres: r1(rafterM), pieces: pieces(rafterM + ridgeBoardM) },
       purlins: { size: T.purlinSize, metres: r1(purlinM), pieces: pieces(purlinM) },

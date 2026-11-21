@@ -1,8 +1,8 @@
-<!-- {"title":"Roof Calculator","description":"Free roof calculator for Nigeria: enter your building's length and width to estimate roof area in m², long-span sheets, step-tile or stone-coated tiles, ridge, gutters and timber.","scripts":["estimator-settings.js","estimator-core.js","estimator-ui.js"]} -->
+<!-- {"title":"Roof Calculator","description":"Free roofing calculator for Nigeria. Enter your building length and width to estimate the roof size in m², number of longspan sheets, ridge cap, barge board, screws and the cost of materials.","scripts":["estimator-settings.js","estimator-core.js","estimator-ui.js"]} -->
 <section class="page-hero"><div class="container" style="max-width:var(--max)">
 <span class="eyebrow">Roof calculator</span>
     <h1>Roof calculator</h1>
-    <p class="lead">Get a preliminary estimate of your roof area and materials from your building's measurements. Send it to us on WhatsApp and we will reply with an exact quote.</p>
+    <p class="lead">Put in the size of your building to see roughly how much roofing material it needs and what the materials cost. Send the result to us on WhatsApp and we will give you a proper quotation.</p>
 </div></section>
 <section class="section">
   <div class="container">
@@ -14,7 +14,7 @@
           <div class="field"><label for="length">Building length (m)</label><input id="length" name="length" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 15"></div>
           <div class="field"><label for="width">Building width (m)</label><input id="width" name="width" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 10"></div>
         </div>
-        <p class="hint disclaimer" style="margin:-6px 0 0">Measure the outside of the walls. On a building plan, use the overall dimensions.</p>
+        <p class="hint disclaimer" style="margin:-6px 0 0">Measure along the outside of the walls. On a building plan, use the full length and width.</p>
 
         <div class="field">
           <span style="display:block;font-weight:700;font-size:.95rem;margin-bottom:6px">Roof shape</span>
@@ -27,8 +27,8 @@
         </div>
 
         <div class="row-2">
-          <div class="field" id="pitch-row"><label for="pitch">Roof slope (degrees)</label><input id="pitch" name="pitch" type="number" min="5" max="45" step="1"><div class="hint">Not sure? Leave 18°, common for Nigerian aluminium roofs.</div></div>
-          <div class="field"><label for="overhang">Eave overhang (m)</label><input id="overhang" name="overhang" type="number" min="0" max="1.5" step="0.05"><div class="hint">How far the roof sticks out past the walls.</div></div>
+          <div class="field" id="pitch-row"><label for="pitch">Roof slope (degrees)</label><input id="pitch" name="pitch" type="number" min="5" max="45" step="1"><div class="hint">If you don't know, leave it at 18°.</div></div>
+          <div class="field"><label for="overhang">Eave overhang (m)</label><input id="overhang" name="overhang" type="number" min="0" max="1.5" step="0.05"><div class="hint">How far the roof comes out past the wall.</div></div>
         </div>
 
         <div class="field"><label for="profile">Roofing material</label>
@@ -51,8 +51,8 @@
         </div>
 
         <div class="callout" style="margin-top:6px">
-          <strong>Have a building plan?</strong> Send a photo of it on WhatsApp and we will do the take-off for you.
-          <div style="margin-top:10px"><a class="btn btn-wa btn-sm" href="{{wa:Hello HolyTouch Roofing, I will send my building plan here for a roof estimate.}}" target="_blank" rel="noopener">{{icon:whatsapp}} Send my plan</a></div>
+          <strong>Have a building plan?</strong> Send us a picture of it on WhatsApp and we will work out the materials for you.
+          <div style="margin-top:10px"><a class="btn btn-wa btn-sm" href="{{wa:Hello HolyTouch, I am sending my building plan for a roofing estimate.}}" target="_blank" rel="noopener">{{icon:whatsapp}} Send my plan</a></div>
         </div>
       </form>
 
@@ -64,21 +64,21 @@
 <section class="section alt">
   <div class="container grid grid-2" style="align-items:start">
     <div>
-      <span class="eyebrow">How accurate is it?</span>
-      <h2>What the calculator can and can't tell you</h2>
-      <p>Roof area, sheet numbers and lengths, ridge, hip and gutter lengths are geometry, so they are <strong>reliable for simple gable, hip and flat roofs</strong> when the measurements are right.</p>
-      <p>Screws and timber are <strong>indicative</strong>. They depend on the truss design, spans, wall layout and timber sizes, which we confirm on site. L-shaped roofs, valleys and roofs on several levels need a proper take-off from your plan.</p>
+      <span class="eyebrow">Good to know</span>
+      <h2>How close is the calculator?</h2>
+      <p>For a simple gable, hip or flat roof, the roof size, sheets, ridge, barge board and fascia come out close, as long as the measurements you put in are right.</p>
+      <p>The wood count is only a guide, because it depends on how the trusses are set out on your building. For L-shaped roofs, valleys and roofs on more than one level, send us the plan.</p>
     </div>
     <div class="card">
-      <h3>Before your final quote, we always check:</h3>
+      <h3>Before we give you a final price we check:</h3>
       <ol style="margin:10px 0 0;padding-left:20px;color:var(--muted)">
-        <li>Site measurements: walls are rarely perfectly square, and plans can differ from what was built.</li>
-        <li>Structure: wall plates, beams and ring beam to carry the roof.</li>
-        <li>Timber: type, treatment against termites and rot, and moisture.</li>
-        <li>Wind, rain, drainage, gutter size and fixing pattern.</li>
-        <li>For re-roofing: condition of the old timber, removal and leak sources.</li>
-        <li>Access, scaffolding, transport distance and site security.</li>
-        <li>Current material prices and labour.</li>
+        <li>The real measurements on site. Walls are not always square, and buildings don't always follow the plan.</li>
+        <li>The wall plate, beams and walls that will carry the roof.</li>
+        <li>The wood: type, treatment against termites, and condition.</li>
+        <li>Where water will run off, and the gutters.</li>
+        <li>For re-roofing: the state of the old wood and where leaks are coming from.</li>
+        <li>Access, scaffolding and transport to the site.</li>
+        <li>Current market prices.</li>
       </ol>
     </div>
   </div>

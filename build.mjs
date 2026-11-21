@@ -14,6 +14,9 @@ const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 
 // ---------- Icons ----------
 const ICONS = {
+  facebook: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8h3V4h-3c-2.8 0-4 1.8-4 4.2V10H7v4h3v8h4v-8h3l1-4h-4V8.6c0-.4.3-.6.6-.6Z"/></svg>',
+  instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
+  tiktok: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 2.2 1.6 3.6 3.8 3.8v3.1c-1.4.1-2.6-.3-3.8-1v6.3c0 4-3.4 6.4-6.8 5.6-4.4-1-5-7.4-.5-8.8.8-.3 1.7-.3 2.5-.2v3.2c-.4-.1-.8-.2-1.2-.1-1.7.3-1.9 2.8-.1 3.3 1.3.4 2.7-.5 2.7-2V3Z"/></svg>',
   whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.8c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>',
   phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>',
   roof: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12 12 4l10 8"/><path d="M5 10v10h14V10"/></svg>',
@@ -69,6 +72,14 @@ function roofSVG({ colour = "#9E3B2F", kind = "longspan", label = "Placeholder p
 </svg>`;
 }
 
+// ---------- FAQ structured data ----------
+function strip(h) { return h.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim(); }
+function faqLd(body) {
+  const qs = [...body.matchAll(/<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g)];
+  return { "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: qs.map((m) => ({ "@type": "Question", name: strip(m[1]), acceptedAnswer: { "@type": "Answer", text: strip(m[2]) } })) };
+}
+
 // ---------- Layout ----------
 const NAV = [
   ["index.html", "Home"],
@@ -81,9 +92,9 @@ const NAV = [
   ["contact.html", "Contact"],
 ];
 
-function layout({ title, description, body, file, base, scripts = [] }) {
+function layout({ title, description, body, file, base, scripts = [], faq = false }) {
   const pageUrl = `${site.siteUrl}/${file === "index.html" ? "" : file}`;
-  const fullTitle = file === "index.html" ? `${site.name} | Aluminium Roofing in Lagos and Ibadan` : `${title} | ${site.shortName}`;
+  const fullTitle = file === "index.html" ? `${site.name} | Aluminium Roofing in Ibadan and Lagos` : `${title} | ${site.shortName}`;
   const nav = NAV.map(([href, label]) => `<a href="${base}${href}"${href === file ? ' aria-current="page"' : ""}>${label}</a>`).join("");
   const ld = {
     "@context": "https://schema.org",
@@ -92,8 +103,11 @@ function layout({ title, description, body, file, base, scripts = [] }) {
     url: site.siteUrl + "/",
     telephone: site.phoneIntl,
     logo: `${site.siteUrl}/assets/img/logo/mark-a.svg`,
-    address: { "@type": "PostalAddress", addressLocality: site.city, addressRegion: site.state, addressCountry: "NG" },
-    areaServed: ["Lagos", "Ibadan", "Nigeria"],
+    image: `${site.siteUrl}/assets/img/og-image.png`,
+    address: { "@type": "PostalAddress", streetAddress: site.street, addressLocality: "Ibadan", addressRegion: "Oyo", addressCountry: "NG" },
+    areaServed: [{ "@type": "City", name: "Ibadan" }, { "@type": "City", name: "Lagos" }, { "@type": "Country", name: "Nigeria" }],
+    sameAs: Object.values(site.social).filter(Boolean),
+    makesOffer: ["New roofing", "Roof installation only", "Re-roofing", "Roof leak repair", "Roof carpentry", "Gutters and flashing", "Fascia and ceiling cladding"].map((n) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: n } })),
     openingHours: "Mo-Sa 08:00-18:00",
   };
   return `<!doctype html>
@@ -114,6 +128,11 @@ function layout({ title, description, body, file, base, scripts = [] }) {
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${base}assets/css/style.css">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
+${faq ? `<script type="application/ld+json">${JSON.stringify(faqLd(body))}</script>` : ""}
+<meta property="og:image" content="${site.siteUrl}/assets/img/og-image.png">
+<meta property="og:site_name" content="${esc(site.name)}">
+<meta property="og:locale" content="en_NG">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -132,21 +151,28 @@ ${body}
     <div><img src="${base}assets/img/logo/${site.logo}-dark.svg" alt="${esc(site.name)}" height="44" style="height:44px;width:auto;margin-bottom:14px">
       <p>${esc(site.tagline)}.</p></div>
     <div><h4>Contact</h4><ul>
-      <li><a href="${telHref}">Call ${site.phoneDisplay}</a></li>
-      <li><a href="${waHref("Hello HolyTouch Roofing, I would like a quote.")}" target="_blank" rel="noopener">WhatsApp ${site.whatsappDisplay}</a></li>
+      <li><a href="${telHref}">Call or WhatsApp ${site.phoneDisplay}</a></li>
       <li>${esc(site.addressPublic)}</li>
+      <li>${esc(site.address2)}</li>
       <li>${esc(site.hours)}</li></ul></div>
+    <div><h4>Locations</h4><ul>
+      <li><a href="${base}roofing-ibadan.html">Roofing in Ibadan</a></li>
+      <li><a href="${base}roofing-lagos.html">Roofing in Lagos</a></li></ul>
+      <h4 style="margin-top:22px">Follow us</h4>
+      <div class="social">${["facebook", "instagram", "tiktok"].map((k) => site.social[k]
+        ? `<a href="${site.social[k]}" target="_blank" rel="noopener" aria-label="HolyTouch on ${k}">${ICONS[k]}</a>`
+        : `<span title="Coming soon" aria-label="${k} (coming soon)">${ICONS[k]}</span>`).join("")}</div></div>
     <div><h4>Explore</h4><ul>
       <li><a href="${base}services.html">Services</a></li><li><a href="${base}projects.html">Projects</a></li>
       <li><a href="${base}roof-calculator.html">Roof calculator</a></li><li><a href="${base}materials.html">Materials guide</a></li>
       <li><a href="${base}faq.html">FAQ</a></li></ul></div>
   </div>
-  <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(site.name)}. ${esc(site.locations)} · Projects across ${esc(site.serviceArea)}.</div>
+  <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(site.name)}</div>
 </div></footer>
-<a class="wa-float" href="${waHref("Hello HolyTouch Roofing, I would like a quote.")}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${ICONS.whatsapp}</a>
+<a class="wa-float" href="${waHref("Hello HolyTouch, I would like a quotation for roofing.")}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${ICONS.whatsapp}</a>
 <nav class="mobile-bar" aria-label="Quick contact">
   <a class="call" href="${telHref}">${ICONS.phone} Call</a>
-  <a class="wa" href="${waHref("Hello HolyTouch Roofing, I would like a quote.")}" target="_blank" rel="noopener">${ICONS.whatsapp} WhatsApp</a>
+  <a class="wa" href="${waHref("Hello HolyTouch, I would like a quotation for roofing.")}" target="_blank" rel="noopener">${ICONS.whatsapp} WhatsApp</a>
 </nav>
 <script src="${base}assets/js/main.js"></script>
 ${scripts.map((s) => `<script src="${base}assets/js/${s}"></script>`).join("\n")}

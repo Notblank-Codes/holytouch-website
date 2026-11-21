@@ -1,17 +1,16 @@
-<!-- {"title":"Contact and Quotations","description":"Request a roofing quotation from HolyTouch Roofing Ltd. Call 0706 328 1892, WhatsApp 0803 376 1125, or book a site inspection. Lagos and Ibadan."} -->
-<section class="page-hero"><div class="container" style="max-width:var(--max)">
+<!-- {"title":"Contact Us","description":"Contact HolyTouch Roofing. Call or WhatsApp 0803 376 1125. Academy, Olunde, Ibadan and Lagos."} -->
+<section class="page-hero"><div class="container">
 <span class="eyebrow">Contact</span>
-    <h1>Request a quotation</h1>
-    <p class="lead">The fastest way to reach us is WhatsApp. You can send photos, your building plan or your calculator estimate in the same chat.</p>
+<h1>Get a quotation</h1>
+<p class="lead">WhatsApp is the quickest way to reach us. You can send pictures and your building plan in the same chat.</p>
 </div></section>
+
 <section class="section">
   <div class="container">
-    
-
-    <div class="grid grid-3" style="margin-top:28px">
-      <a class="card" style="text-decoration:none;color:inherit" href="{{wa:Hello HolyTouch Roofing, I would like a quote.}}" target="_blank" rel="noopener"><div class="icon" style="background:#DDF7E6;color:#1C6B3C">{{icon:whatsapp}}</div><h3>WhatsApp</h3><p>{{waphone}}</p></a>
-      <a class="card" style="text-decoration:none;color:inherit" href="{{tel}}"><div class="icon">{{icon:phone}}</div><h3>Call</h3><p>{{phone}}<br>Monday to Saturday, 8am to 6pm</p></a>
-      <div class="card"><div class="icon">{{icon:map}}</div><h3>Where we are</h3><p>Olomi-Olunde Road, Olunde, Ibadan<br>Lagos<br>Projects across Nigeria and beyond</p></div>
+    <div class="grid grid-3">
+      <a class="card card-link" href="{{wa:Hello HolyTouch, I would like a quotation for roofing.}}" target="_blank" rel="noopener"><div class="icon icon-wa">{{icon:whatsapp}}</div><h3>WhatsApp</h3><p>{{waphone}}</p></a>
+      <a class="card card-link" href="{{tel}}"><div class="icon">{{icon:phone}}</div><h3>Call</h3><p>{{phone}}<br>Monday to Saturday, 8am to 6pm</p></a>
+      <div class="card"><div class="icon">{{icon:map}}</div><h3>Locations</h3><p><strong>Ibadan:</strong> Academy, Olunde<br><strong>Lagos</strong></p></div>
     </div>
   </div>
 </section>
@@ -19,32 +18,32 @@
 <section class="section alt">
   <div class="container grid grid-2" style="align-items:start">
     <div>
-      <h2>Request a quote</h2>
-      <p class="disclaimer">When you press the button, WhatsApp opens with your details filled in. Just press send.</p>
-      <form class="form card" data-wa-form="I would like a roofing quote" style="margin-top:16px">
+      <h2>Ask for a quotation</h2>
+      <p class="disclaimer">Fill this in and press the button. WhatsApp will open with your details. Just press send.</p>
+      <form class="form card" data-wa-form="I would like a quotation for roofing" style="margin-top:16px">
         <div class="field"><label for="q-name">Your name</label><input id="q-name" name="name" required autocomplete="name"></div>
         <div class="field"><label for="q-phone">Phone number</label><input id="q-phone" name="phone" type="tel" required autocomplete="tel"></div>
-        <div class="field"><label for="q-location">Location (town / state)</label><input id="q-location" name="location" required></div>
-        <div class="field"><label for="q-service">Service</label>
+        <div class="field"><label for="q-location">Where is the building?</label><input id="q-location" name="location" required></div>
+        <div class="field"><label for="q-service">What do you need?</label>
           <select id="q-service" name="service">
-            <option>New roofing</option><option>Re-roofing / roof replacement</option><option>Repairs and leak fixing</option>
-            <option>Roof trusses / carpentry</option><option>Gutters and rainwater system</option><option>Fascia / ceiling cladding</option><option>Ceilings (PVC / POP)</option>
+            <option>New roof (supply and installation)</option><option>Installation only (I have the materials)</option><option>Re-roofing</option><option>Leak repair</option>
+            <option>Roof carpentry</option><option>Gutters</option><option>Fascia or ceiling cladding</option><option>Ceilings (PVC / POP)</option>
           </select></div>
-        <div class="field"><label for="q-details">Details (size, material, timing)</label><textarea id="q-details" name="details" rows="4"></textarea></div>
-        <button class="btn btn-wa" type="submit">{{icon:whatsapp}} Send on WhatsApp</button>
+        <div class="field"><label for="q-details">Anything else (size, sheet type, when)</label><textarea id="q-details" name="details" rows="4"></textarea></div>
+        <button class="btn btn-primary" type="submit">{{icon:whatsapp}} Send on WhatsApp</button>
       </form>
     </div>
     <div>
-      <h2>Book a site inspection</h2>
-      <p class="disclaimer">We visit, measure and check the structure before giving a final quotation.</p>
-      <form class="form card" data-wa-form="I would like to book a site inspection" style="margin-top:16px">
+      <h2>Book a site visit</h2>
+      <p class="disclaimer">We come, measure and check the building before giving a final price.</p>
+      <form class="form card" data-wa-form="I would like to book a site visit" style="margin-top:16px">
         <div class="field"><label for="i-name">Your name</label><input id="i-name" name="name" required autocomplete="name"></div>
         <div class="field"><label for="i-phone">Phone number</label><input id="i-phone" name="phone" type="tel" required autocomplete="tel"></div>
         <div class="field"><label for="i-area">Address or area</label><input id="i-area" name="area" required></div>
-        <div class="field"><label for="i-job">Job type</label>
-          <select id="i-job" name="job"><option>New roof</option><option>Re-roofing</option><option>Leak or repair</option><option>Other</option></select></div>
-        <div class="field"><label for="i-day">Preferred day</label><input id="i-day" name="day" type="date"></div>
-        <button class="btn btn-primary" type="submit">Request inspection on WhatsApp</button>
+        <div class="field"><label for="i-job">Type of job</label>
+          <select id="i-job" name="job"><option>New roof</option><option>Installation only</option><option>Re-roofing</option><option>Leak or repair</option><option>Other</option></select></div>
+        <div class="field"><label for="i-day">Day that suits you</label><input id="i-day" name="day" type="date"></div>
+        <button class="btn btn-dark" type="submit">Book on WhatsApp</button>
       </form>
     </div>
   </div>
@@ -52,6 +51,6 @@
 
 <section class="section">
   <div class="container">
-    <iframe title="Map of Olunde, Ibadan" src="https://maps.google.com/maps?q=Olunde%2C%20Ibadan%2C%20Nigeria&z=13&output=embed" width="100%" height="360" style="border:0;border-radius:16px" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <iframe title="Map of Olunde, Ibadan" src="https://maps.google.com/maps?q=Academy%2C%20Olunde%2C%20Ibadan%2C%20Nigeria&z=14&output=embed" width="100%" height="360" style="border:0;border-radius:16px" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 </section>

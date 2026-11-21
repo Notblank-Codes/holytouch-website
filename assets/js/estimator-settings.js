@@ -34,6 +34,8 @@ window.HT_SETTINGS = {
   },
 
   hipCuttingAllowance: 0.08,    // extra sheet for cutting at hips
+  // Internal: extra added to every quantity (0.10–0.15). Not shown to visitors.
+  q: 0.12,
   tileWaste: 0.05,
 
   // Fixings and sealants, from HolyTouch quotations (per metre of roofing sheet)
