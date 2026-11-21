@@ -3,90 +3,194 @@
     "slug": "two-storey-gold-longspan",
     "title": "Two-storey building: wood work and gold longspan roof",
     "year": "2022",
-    "tags": ["Longspan", "Wood work"],
+    "tags": [
+      "Longspan",
+      "Wood work"
+    ],
     "summary": "Hip roof on a large two-storey building, with the wood work and gold longspan sheets.",
     "story": "A big two-storey block with a hip roof. Our team set up the roof frame, then fixed gold longspan sheets with ridge cap and fascia all round. The photos show the work in progress from outside and from inside the building.",
     "photos": [
-      { "alt": "Two-storey block building with a gold longspan hip roof, evening" },
-      { "alt": "Gold longspan roof on a two-storey building, with roof frame visible on the next section" },
-      { "alt": "Roofers on top of a two-storey building fixing gold longspan sheets" },
-      { "alt": "Two roofers working on the gold longspan roof of a two-storey building" },
-      { "alt": "Gold longspan roof with trusses ready for the next section" },
-      { "alt": "Roofers fixing gold longspan sheets near the roof frame" },
-      { "alt": "View from inside the building up to the sheets and roof frame" },
-      { "alt": "Inside view of the roof frame and longspan sheets during installation" }
+      {
+        "alt": "Two-storey block building with a gold longspan hip roof, evening"
+      },
+      {
+        "alt": "Gold longspan roof on a two-storey building, with roof frame visible on the next section"
+      },
+      {
+        "alt": "Roofers on top of a two-storey building fixing gold longspan sheets"
+      },
+      {
+        "alt": "Two roofers working on the gold longspan roof of a two-storey building"
+      },
+      {
+        "alt": "Gold longspan roof with trusses ready for the next section"
+      },
+      {
+        "alt": "Roofers fixing gold longspan sheets near the roof frame"
+      },
+      {
+        "alt": "View from inside the building up to the sheets and roof frame"
+      },
+      {
+        "alt": "Inside view of the roof frame and longspan sheets during installation"
+      }
     ]
   },
   {
     "slug": "hip-roof-bungalow-vent",
     "title": "Hip roof on a bungalow, longspan with roof vent",
     "year": "2022",
-    "tags": ["Longspan"],
+    "tags": [
+      "Longspan"
+    ],
     "summary": "Beige longspan hip roof with a vent at the top, fascia and finishing.",
     "story": "A bungalow roofed with beige longspan in a hip shape, finished with ridge caps, fascia and a small vent at the top of the roof.",
     "photos": [
-      { "alt": "Finished beige longspan hip roof on a bungalow" },
-      { "alt": "Close view of the beige longspan hip roof and fascia" },
-      { "alt": "Roofers fixing the last longspan sheets on a hip roof" },
-      { "alt": "Roofer on a bungalow fixing beige longspan sheets" }
+      {
+        "alt": "Finished beige longspan hip roof on a bungalow"
+      },
+      {
+        "alt": "Close view of the beige longspan hip roof and fascia"
+      },
+      {
+        "alt": "Roofers fixing the last longspan sheets on a hip roof"
+      },
+      {
+        "alt": "Roofer on a bungalow fixing beige longspan sheets"
+      }
+    ]
+  },
+  {
+    "slug": "blue-longspan-bungalow",
+    "title": "Blue longspan hip roof on a bungalow",
+    "year": "2017",
+    "tags": [
+      "Longspan"
+    ],
+    "summary": "Blue longspan hip roof with fascia all round, on a bungalow with an arched front porch.",
+    "story": "A bungalow with several roof sections joined together, finished in blue longspan with ridge caps on every hip and matching fascia round the whole building.",
+    "photos": [
+      {
+        "alt": "Blue longspan hip roof on a bungalow with an arched porch"
+      },
+      {
+        "alt": "Side view of the blue longspan roof and fascia on a bungalow"
+      }
     ]
   },
   {
     "slug": "longspan-bungalow-beige",
     "title": "Longspan roof on a long bungalow",
     "year": "2022",
-    "tags": ["Longspan", "Wood work"],
+    "tags": [
+      "Longspan",
+      "Wood work"
+    ],
     "summary": "Beige longspan sheets fixed over a new roof frame on a long bungalow.",
     "story": "A long bungalow roofed with beige longspan. The photos show the sheets going onto the roof frame and the finished side of the roof with fascia.",
     "photos": [
-      { "alt": "Roofers finishing a beige longspan roof on a long bungalow" },
-      { "alt": "Team fixing beige longspan sheets onto the roof frame" }
+      {
+        "alt": "Roofers finishing a beige longspan roof on a long bungalow"
+      },
+      {
+        "alt": "Team fixing beige longspan sheets onto the roof frame"
+      }
     ]
   },
   {
     "slug": "stone-coated-bungalow",
     "title": "Stone coated roof on a bungalow",
     "year": "2022",
-    "tags": ["Stone coated"],
+    "tags": [
+      "Stone coated"
+    ],
     "summary": "Black stone coated (Gerard type) tiles on a bungalow with a hip roof.",
     "story": "A bungalow finished with black stone coated tiles, including the ridge and the small roof sections over the front.",
     "photos": [
-      { "alt": "Bungalow with a black stone coated tile roof" }
+      {
+        "alt": "Bungalow with a black stone coated tile roof"
+      }
+    ]
+  },
+  {
+    "slug": "brown-stone-coated-bungalow",
+    "title": "Brown stone coated roof on a bungalow",
+    "year": "2017",
+    "tags": [
+      "Stone coated"
+    ],
+    "summary": "Brown stone coated tiles on a bungalow, with a separate roof over the porch.",
+    "story": "A bungalow roofed with brown stone coated tiles, with its own small hip roof over the front porch and fascia round the edges.",
+    "photos": [
+      {
+        "alt": "Bungalow with a brown stone coated tile roof and porch roof"
+      }
+    ]
+  },
+  {
+    "slug": "brown-longspan-bungalow",
+    "title": "Brown longspan roof on a bungalow",
+    "year": "2017",
+    "tags": [
+      "Longspan"
+    ],
+    "summary": "Brown longspan roof with a gable over the arched front, being finished by our team.",
+    "story": "A bungalow roofed with brown longspan, with a small gable section over the arched front and fascia round the roof. The photo shows our team finishing the top of the roof.",
+    "photos": [
+      {
+        "alt": "Roofers finishing a brown longspan roof on a bungalow"
+      }
     ]
   },
   {
     "slug": "rain-gutters-downpipes",
     "title": "Rain gutters and downpipes",
     "year": "2022",
-    "tags": ["Gutters"],
+    "tags": [
+      "Gutters"
+    ],
     "summary": "White gutters and downpipes following the shape of the roof edge.",
     "story": "Rain gutters fitted along the roof edge and around the corners, with a downpipe taking the water down the wall.",
     "photos": [
-      { "alt": "White rain gutter and downpipe on a plastered house" }
+      {
+        "alt": "White rain gutter and downpipe on a plastered house"
+      }
     ]
   },
   {
     "slug": "bungalow-roof-frame",
     "title": "Roof frame on a bungalow",
     "year": "2022",
-    "tags": ["Wood work"],
+    "tags": [
+      "Wood work"
+    ],
     "summary": "Wood work for a long bungalow roof, ready for the sheets.",
     "story": "The full roof frame on a long bungalow: trusses, rafters and purlins in place, ready for the roofing sheets.",
     "photos": [
-      { "alt": "Roofers on the wooden roof frame of a long bungalow" },
-      { "alt": "Wooden roof frame against the evening sky" }
+      {
+        "alt": "Roofers on the wooden roof frame of a long bungalow"
+      },
+      {
+        "alt": "Wooden roof frame against the evening sky"
+      }
     ]
   },
   {
     "slug": "hip-roof-wood-work",
     "title": "Hip roof wood work with wall flashing",
     "year": "2017",
-    "tags": ["Wood work"],
+    "tags": [
+      "Wood work"
+    ],
     "summary": "Hip roof frame with wall flashing on the parapet.",
     "story": "Wood work for a hip roof: trusses, hip rafters and purlins, with flashing already fitted on the top of the wall.",
     "photos": [
-      { "alt": "Hip roof wooden frame with flashing on the wall" },
-      { "alt": "Inside the wooden roof frame, looking along the trusses" }
+      {
+        "alt": "Hip roof wooden frame with flashing on the wall"
+      },
+      {
+        "alt": "Inside the wooden roof frame, looking along the trusses"
+      }
     ]
   }
 ]
