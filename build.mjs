@@ -340,4 +340,5 @@ fs.writeFileSync(path.join(OUT, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${site.siteUrl}/${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${site.siteUrl}/sitemap.xml\n`);
 fs.writeFileSync(path.join(OUT, ".nojekyll"), "");
+fs.writeFileSync(path.join(OUT, "CNAME"), new URL(site.siteUrl).hostname + "\n");
 console.log(`Built ${urls.length} pages into docs/`);
